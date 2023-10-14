@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">s336154_mappe2</string>
+    <string name="taskName">Navn</string>
+    <string name="taskNr">Telefon nummer</string>
 </resources>
