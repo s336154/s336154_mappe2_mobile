@@ -15,8 +15,9 @@ public class TaskDataSource {
     public TaskDataSource(Context context) { dbHelper = new DatabaseHelper(context); }
     public void open() throws SQLException { database = dbHelper.getWritableDatabase(); }
     public void close() { dbHelper.close(); }
-    public Task addTask(String taskName, String phoneNr) { ContentValues values = new ContentValues();
+    public Task addTask(String taskName, String phoneNr) {
 
+        ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_TASK_NAME, taskName);
         values.put(DatabaseHelper.COLUMN_TASK_PHONENR, phoneNr);
         long insertId = database.insert(DatabaseHelper.TABEL_TASKS, null, values);
@@ -37,7 +38,8 @@ public class TaskDataSource {
         return task;
     }
 
-    public List<Task> findAllTasks() { List<Task> tasks = new ArrayList<>();
+    public List<Task> findAllTasks() {
+        List<Task> tasks = new ArrayList<>();
         Cursor cursor = database.query(DatabaseHelper.TABEL_TASKS, null,
                 null, null, null, null, null); cursor.moveToFirst();
         while (!cursor.isAfterLast()) { Task task = cursorToTask(cursor);
