@@ -18,7 +18,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editNavn"/>
+            android:id="@+id/editName"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -29,15 +29,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Legg til"
-            android:id="@+id/leggtil"/>
+            android:id="@+id/addButton"/>
 
 
         <Button
 
-            android:id="@+id/slett"
+            android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="slett"
+            android:onClick="delete"
             android:text="Slett" />
 
 

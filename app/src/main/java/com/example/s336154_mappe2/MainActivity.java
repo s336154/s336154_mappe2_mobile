@@ -12,34 +12,64 @@ import android.widget.ListView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private OppgaveDataKilde dataKilde;
-    private ArrayAdapter<Task> oppgaveArrayAdapter;
-    private EditText oppgaveEditText;
-    private List<Task> oppgaver;
+    private TaskDataSource dataSource;
+    private ArrayAdapter<Task> taskArrayAdapter;
+    private EditText taskEditName;
+    private EditText taskEditNr;
+    private List<Task> tasks;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dataKilde = new OppgaveDataKilde(this); dataKilde.open();
-        oppgaveEditText = findViewById(R.id.editText); ListView oppgaveListView = findViewById(R.id.listView);
-        oppgaver = dataKilde.finnAlleOppgaver();
-        oppgaveArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, oppgaver);
-        oppgaveListView.setAdapter(oppgaveArrayAdapter);
+        dataSource = new TaskDataSource(this);
+        dataSource.open();
+        taskEditName = findViewById(R.id.editName);
+        taskEditNr = findViewById(R.id.editNr);
+        ListView oppgaveListView = findViewById(R.id.listView);
+        tasks = dataSource.findAllTasks();
+        taskArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, tasks);
+        oppgaveListView.setAdapter(taskArrayAdapter);
 
-        Button leggtilButton = findViewById(R.id.leggtil);
-        leggtilButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { String oppgaveNavn = oppgaveEditText.getText().toString(); if (!oppgaveNavn.isEmpty()) { Task oppgave = dataKilde.leggInnOppgave(oppgaveNavn); oppgaveArrayAdapter.add(oppgave); oppgaveEditText.setText(""); } }
+
+        Button addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String taskName = taskEditName.getText().toString();
+                String taskNr = taskEditNr.getText().toString();
+                if (!taskNr.isEmpty() && !taskNr.isEmpty()) {
+                    Task task = dataSource.addTask(taskName, taskNr);
+                    taskArrayAdapter.add(task);
+                    taskEditName.setText("");
+                    taskEditNr.setText("");
+                } }
         });
 
-        Button slettButton = findViewById(R.id.slett); slettButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View v) { long oppgaveId=0; oppgaveId = Long.parseLong(oppgaveEditText.getText().toString()); if (oppgaveId > 0) { dataKilde.slettOppgave(oppgaveId); oppgaver = dataKilde.finnAlleOppgaver(); oppgaveArrayAdapter = new ArrayAdapter<>(getBaseContext(),
-                android.R.layout.simple_list_item_1, oppgaver); oppgaveListView.setAdapter(oppgaveArrayAdapter);
-            oppgaveEditText.setText(""); } } });
-    } //ferdig onCreate
+
+        Button deleteButton = findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                long taskId=0;
+                taskId = Long.parseLong(taskEditName.getText().toString());
+                if (taskId > 0) { dataSource.deleteTask(taskId);
+                    tasks = dataSource.findAllTasks();
+                    taskArrayAdapter = new ArrayAdapter<>(getBaseContext(),
+                android.R.layout.simple_list_item_1, tasks);
+                    oppgaveListView.setAdapter(taskArrayAdapter);
+                    taskEditName.setText("");
+                    taskEditNr.setText("");
+                } } });
+    }
 
     @Override
-    protected void onResume() { dataKilde.open(); super.onResume(); }
+    protected void onResume() {
+        dataSource.open(); super.onResume(); }
     @Override
-    protected void onPause() { dataKilde.close(); super.onPause(); }
-} //ferdig MainActivity
+    protected void onPause() {
+        dataSource.close(); super.onPause(); }
+}
 
