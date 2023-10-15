@@ -1,0 +1,39 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MeetingActivity">
+
+        <EditText
+            android:id="@+id/editMeetingTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Time" />
+
+        <EditText
+            android:id="@+id/editMeetingDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date" />
+
+        <EditText
+            android:id="@+id/editMeetingPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Place" />
+
+        <Button
+            android:id="@+id/saveMeetingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Meeting" />
+
+        <Button
+            android:id="@+id/deleteMeetingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete Meeting" />
+</LinearLayout>

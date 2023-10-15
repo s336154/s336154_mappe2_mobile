@@ -3,47 +3,52 @@ package com.example.s336154_mappe2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private TaskDataSource dataSource;
-    private ArrayAdapter<Task> taskArrayAdapter;
-
-    private List<Task> tasks;
-
+    private DataSource dataSource;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dataSource = new TaskDataSource(this);
-        dataSource.open();
-        ListView oppgaveListView = findViewById(R.id.listView);
-        tasks = dataSource.findAllTasks();
-        taskArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, tasks);
-        oppgaveListView.setAdapter(taskArrayAdapter);
 
-        Button contactsButton =findViewById(R.id.contactsButton);
-        Intent i=new Intent(this, ContactsActivity.class);
-        contactsButton.setOnClickListener(new View.OnClickListener() {
+        dataSource = new DataSource(this);
+        dataSource.open();
+
+        // Insert a new contact
+        Contact contact = new Contact("John Doe", "123-456-7890");
+        long contactId = dataSource.insertContact(contact);
+
+        // Insert a meeting associated with the contact
+        Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A", contactId);
+        dataSource.insertMeeting(meeting);
+
+        // Retrieve all contacts and meetings
+        Cursor contactCursor = dataSource.getAllContacts();
+        Cursor meetingCursor = dataSource.getAllMeetings();
+
+        // Handle the retrieved data as needed
+
+        Button toContactsButt =findViewById(R.id.toContactsButton);
+        Intent toContacts =new Intent(this, ContactActivity.class);
+        toContactsButt.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                startActivity(i);
+                startActivity(toContacts);
             } });
 
     }
 
     @Override
-    protected void onResume() {
-        dataSource.open(); super.onResume(); }
-    @Override
-    protected void onPause() {
-        dataSource.close(); super.onPause(); }
+    protected void onDestroy() {
+        super.onDestroy();
+        dataSource.close();
+    }
 }
-
