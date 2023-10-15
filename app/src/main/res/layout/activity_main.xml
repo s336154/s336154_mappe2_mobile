@@ -13,42 +13,11 @@
         android:padding="16dp"
         tools:context=".MainActivity">
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/taskName"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editName"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/taskNr"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editNr"/>
-
-
         <Button
+            android:id="@+id/contactsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Legg til"
-            android:id="@+id/addButton"/>
-
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="delete"
-            android:text="Slett" />
-
+            android:text="Legge til kontakter" />
 
         <ListView android:id="@+id/listView"
             android:layout_width="match_parent"
