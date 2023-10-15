@@ -1,5 +1,6 @@
 package com.example.s336154_mappe2;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -51,4 +52,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + MEETINGS_TABLE_NAME);
         onCreate(db);
     }
+
+    public long getContactIdForMeeting(long meetingId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long contactId = -1;  // Default value in case of an error
+
+        String query = "SELECT contact_id FROM meetings WHERE id = ?";
+        String[] selectionArgs = {String.valueOf(meetingId)};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            contactId = cursor.getLong(0);  // Assumes contact_id is in the first column
+        }
+
+        cursor.close();
+        return contactId;
+    }
+
 }
