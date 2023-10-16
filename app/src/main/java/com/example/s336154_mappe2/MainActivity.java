@@ -44,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(toContacts);
             } });
 
+        Button toMeetingsButt =findViewById(R.id.toMeetingsButton);
+        Intent toMeetings =new Intent(this, MeetingActivity.class);
+        toMeetingsButt.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                startActivity(toMeetings);
+            } });
+
     }
 
     @Override

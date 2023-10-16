@@ -23,7 +23,7 @@
         </activity>
 
         <activity android:name=".ContactActivity"/>
-        <activity android:name=".AddMeetingActivity"/>
+        <activity android:name=".MeetingActivity"/>
 
     </application>
 

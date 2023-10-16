@@ -84,6 +84,8 @@ public class MeetingActivity extends AppCompatActivity {
                 // You can get the contact's ID and call contactAdapter.deleteContact(contactId)
             }
         });
+
+
     }
 
     @Override

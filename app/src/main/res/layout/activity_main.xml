@@ -19,5 +19,11 @@
             android:layout_height="wrap_content"
             android:text="To Contacts" />
 
+        <Button
+            android:id="@+id/toMeetingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To Meetings" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
