@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 public class MeetingActivity extends AppCompatActivity {
@@ -19,6 +21,9 @@ public class MeetingActivity extends AppCompatActivity {
     private EditText editMeetingTime, editMeetingDate, editMeetingPlace;
     private SQLiteDatabase database;
     private DatabaseHelper dbHelper;
+
+    private ArrayAdapter<Meeting> meetingArrayAdapter;
+    private List<Meeting> meetingsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,19 @@ public class MeetingActivity extends AppCompatActivity {
         editMeetingDate = findViewById(R.id.editMeetingDate);
         editMeetingPlace = findViewById(R.id.editMeetingPlace);
 
+
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButton);
         Button deleteContactButton = findViewById(R.id.deleteMeetingButton);
+
+
+       long contactID = getIntent().getExtras().getLong("contactId", 0);
+       Log.d("contactID","contactID is " +String.valueOf(contactID));
+
+        meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
+
+        meetingArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, meetingsList);
 
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +58,24 @@ public class MeetingActivity extends AppCompatActivity {
                 String time = editMeetingTime.getText().toString();
                 String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
+
+                if (!time.isEmpty() && !place.isEmpty() && !date.isEmpty()) {
+                    // Create a new Contact object and save it to the database
+
+                    Meeting meeting = new Meeting(time, date, place, contactID);
+                    meetingAdapter.insertMeeting(meeting);
+
+                    long contactId = meetingAdapter.insertMeeting(meeting);
+                    meetingArrayAdapter.add(meeting);
+                    // Handle item click here
+                    Toast.makeText(MeetingActivity.this,  "Avtalen er lagret.",
+                            Toast.LENGTH_LONG).show();
+
+                    editMeetingTime.setText("");
+                    editMeetingDate.setText("");
+                    editMeetingPlace.setText("");
+                }
+
 
             }
         });

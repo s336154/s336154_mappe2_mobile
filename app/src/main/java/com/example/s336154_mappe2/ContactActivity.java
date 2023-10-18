@@ -94,6 +94,9 @@ public class ContactActivity extends AppCompatActivity {
                         "  ID is: " + String.valueOf(selectedItem.getId()));
 
                 String nameDeleted = selectedItem.getName();
+                long contactId = selectedItem.getId();
+
+                Log.d("contactId", "ID is: " + String.valueOf(contactId));
 
                 deleteContactButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -114,7 +117,6 @@ public class ContactActivity extends AppCompatActivity {
                                 })
                                 .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        // User clicked "Cancel," do nothing
                                         return;
                                     }
                                 });
@@ -126,6 +128,7 @@ public class ContactActivity extends AppCompatActivity {
                 addContactMeeting.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        addContactMeetingIntent.putExtra("contactId", contactId);
                         startActivity(addContactMeetingIntent);
                     }
                 });
