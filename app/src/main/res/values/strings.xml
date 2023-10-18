@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">s336154_mappe2</string>
+    <string name="dialogContact"> Slett kontakt </string>
+    <string name="contactDialogOK"> Slett </string>
+    <string name="contactDialogNO"> Avbryt </string>
+
 </resources>
