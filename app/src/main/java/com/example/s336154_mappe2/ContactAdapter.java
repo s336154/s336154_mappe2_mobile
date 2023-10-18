@@ -127,6 +127,7 @@ public class ContactAdapter {
                 new String[]{String.valueOf(contactId)});
         return numRowsDeleted > 0;
     }
+
 }
 
 /*

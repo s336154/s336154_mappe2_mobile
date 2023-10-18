@@ -27,9 +27,7 @@ import java.util.List;
 public class ContactActivity extends AppCompatActivity {
 
     private ContactAdapter contactAdapter;
-    //   private EditText editContactName, editContactPhone;
     private List<Contact> contactsList;
-    private DatabaseHelper dbHelper;
     private ArrayAdapter<Contact> contactArrayAdapter;
 
 
@@ -44,48 +42,25 @@ public class ContactActivity extends AppCompatActivity {
 
         EditText et = (EditText) findViewById(R.id.text);
 
-  /*      Button dialogknapp = findViewById(R.id.dialog);
-        dialogknapp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-        }
-        });
-
-   */
-
-
-        //    editContactName = findViewById(R.id.editContactName);
-        //    editContactPhone = findViewById(R.id.editContactPhone);
 
         // Implement onClick listeners for save and delete buttons
         Button saveContactButton = findViewById(R.id.addContactButton);
         Button deleteContactButton = findViewById(R.id.deleteContactButton);
         Button addContactMeeting = findViewById(R.id.addContactMeeting);
+        Button toMainActivity = findViewById(R.id.toMainButton);
 
         ListView contactListView = (ListView) findViewById(R.id.listView);
         contactsList = (List<Contact>) contactAdapter.getContactsList();
 
 
         contactArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactsList);
-
         contactListView.setAdapter(contactArrayAdapter);
         contactArrayAdapter.notifyDataSetChanged();
 
-        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Contact selectedItem = (Contact) parent.getItemAtPosition(position);
-                // Handle item click here
-                Toast.makeText(ContactActivity.this, "Clicked on: " + selectedItem.getName(),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-
 
         Intent addContactsIntent = new Intent(this, AddContactActivity.class);
+        Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
+        Intent toMainActivityIntent = new Intent(this, MainActivity.class);
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,13 +68,14 @@ public class ContactActivity extends AppCompatActivity {
             }
         });
 
-        Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
-        addContactMeeting.setOnClickListener(new View.OnClickListener() {
+        toMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(addContactMeetingIntent);
+                startActivity(toMainActivityIntent);
             }
         });
+
+
 
 
         //    Intent deleteContactsIntent =new Intent(this, DeleteContactActivity.class);
@@ -111,7 +87,7 @@ public class ContactActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Contact selectedItem = (Contact) parent.getItemAtPosition(position);
-                Toast.makeText(ContactActivity.this, "Clicked on: " + selectedItem.getName(),
+                Toast.makeText(ContactActivity.this, "Trykket på :  " + selectedItem.getName(),
                         Toast.LENGTH_LONG).show();
 
                 Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getName()) +
@@ -124,7 +100,7 @@ public class ContactActivity extends AppCompatActivity {
                     public void onClick(View view) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(deleteContactButton.getContext());
-                        builder.setMessage("Slett kontakt ")
+                        builder.setMessage("Vil du slette " +nameDeleted+ " ?")
                                 .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // Perform the contact deletion here
@@ -132,7 +108,7 @@ public class ContactActivity extends AppCompatActivity {
                                         contactArrayAdapter.notifyDataSetChanged();
 
                                         Boolean deleted = contactAdapter.deleteContact(selectedItem.getId());
-                                        Toast.makeText(ContactActivity.this, "Contact " + nameDeleted + " is deleted.",
+                                        Toast.makeText(ContactActivity.this, nameDeleted + " er slettet fra kontakt liste.",
                                                     Toast.LENGTH_LONG).show();
                                     }
                                 })
@@ -144,23 +120,39 @@ public class ContactActivity extends AppCompatActivity {
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
+                    }
+                });
 
-
-
-
-
-
+                addContactMeeting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(addContactMeetingIntent);
                     }
                 });
             }
         });
+        }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        contactAdapter.open();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        contactAdapter.close();
+    }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        contactAdapter.close();
+    }
 
 
-
-                }
-                    }
+ }
 
 
 

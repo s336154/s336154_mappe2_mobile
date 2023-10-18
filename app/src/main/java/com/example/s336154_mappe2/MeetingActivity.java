@@ -36,30 +36,6 @@ public class MeetingActivity extends AppCompatActivity {
         Button saveMeetingButton = findViewById(R.id.saveMeetingButton);
         Button deleteContactButton = findViewById(R.id.deleteMeetingButton);
 
-
-
-        DatabaseHelper dbHelper = new DatabaseHelper(this); // Replace 'context' with your actual context
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-
-        String columnName = "CONTACTS_COLUMN_ID"; // Replace with the actual column name
-        String columnValue = "John"; // Replace with the actual value you're searching for
-
-        /*
-        String query = "SELECT id FROM contacts WHERE " + columnName + " = ?";
-        String[] selectionArgs = { columnValue };
-
-
-
-
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-
-         */
-
-
-
-
-
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,28 +44,13 @@ public class MeetingActivity extends AppCompatActivity {
                 String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
 
-     /*           long contactId = contactAdapter.insertContact();; // Initialize with a default value
-
-                if (cursor.moveToFirst()) {
-                    contactId = cursor.getLong(0); // Assuming the ID is in the first column (index 0)
-                }
-
-                cursor.close();
-
-
-                // Create a new Contact object and save it to the database
-                Meeting meeting = new Meeting(time, date, place, contactId);
-                long meetingId = meetingAdapter.insertMeeting(meeting);
-
-      */
             }
         });
 
         deleteContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implement code to delete a contact
-                // You can get the contact's ID and call contactAdapter.deleteContact(contactId)
+
             }
         });
 
@@ -97,8 +58,22 @@ public class MeetingActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        contactAdapter.open();
+        meetingAdapter.open();}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        contactAdapter.close();
+        meetingAdapter.close();
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        contactAdapter.close();
         meetingAdapter.close();
     }
 }

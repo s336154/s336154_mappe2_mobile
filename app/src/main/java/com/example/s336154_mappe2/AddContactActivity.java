@@ -62,7 +62,7 @@ public class AddContactActivity extends AppCompatActivity {
                     long contactId = contactAdapter.insertContact(contact);
                     contactArrayAdapter.add(contact);
                     // Handle item click here
-                    Toast.makeText(AddContactActivity.this, name + " is saved in the contact list",
+                    Toast.makeText(AddContactActivity.this, name + " er lagret i kontakt liste",
                             Toast.LENGTH_LONG).show();
 
                     editContactName.setText("");
