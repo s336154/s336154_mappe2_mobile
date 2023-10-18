@@ -5,6 +5,9 @@ import static com.example.s336154_mappe2.DatabaseHelper.CONTACTS_COLUMN_NAME;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,7 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-public class ContactActivity extends AppCompatActivity implements MyDialog.MyInterface{
+public class ContactActivity extends AppCompatActivity {
 
     private ContactAdapter contactAdapter;
     //   private EditText editContactName, editContactPhone;
@@ -29,19 +32,6 @@ public class ContactActivity extends AppCompatActivity implements MyDialog.MyInt
     private DatabaseHelper dbHelper;
     private ArrayAdapter<Contact> contactArrayAdapter;
 
-    @Override
-    public void onYesClick() {
-        finish();
-    }
-    @Override
-    public void onNoClick() {
-        return;
-    }
-    public void viewDialog(View v)
-    {
-        DialogFragment dialog = new MyDialog();
-        dialog.show(getSupportFragmentManager(),"Slett kontakt");
-    }
 
 
     @Override
@@ -52,7 +42,7 @@ public class ContactActivity extends AppCompatActivity implements MyDialog.MyInt
         contactAdapter = new ContactAdapter(this);
         contactAdapter.open();
 
-        EditText et= (EditText) findViewById(R.id.text);
+        EditText et = (EditText) findViewById(R.id.text);
 
   /*      Button dialogknapp = findViewById(R.id.dialog);
         dialogknapp.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +55,8 @@ public class ContactActivity extends AppCompatActivity implements MyDialog.MyInt
    */
 
 
-    //    editContactName = findViewById(R.id.editContactName);
-    //    editContactPhone = findViewById(R.id.editContactPhone);
+        //    editContactName = findViewById(R.id.editContactName);
+        //    editContactPhone = findViewById(R.id.editContactPhone);
 
         // Implement onClick listeners for save and delete buttons
         Button saveContactButton = findViewById(R.id.addContactButton);
@@ -95,15 +85,15 @@ public class ContactActivity extends AppCompatActivity implements MyDialog.MyInt
         });
 
 
-        Intent addContactsIntent =new Intent(this, AddContactActivity.class);
+        Intent addContactsIntent = new Intent(this, AddContactActivity.class);
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             startActivity(addContactsIntent);
+                startActivity(addContactsIntent);
             }
         });
 
-        Intent addContactMeetingIntent =new Intent(this, MeetingActivity.class);
+        Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
         addContactMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,46 +105,64 @@ public class ContactActivity extends AppCompatActivity implements MyDialog.MyInt
         //    Intent deleteContactsIntent =new Intent(this, DeleteContactActivity.class);
 
 
-                contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Contact selectedItem = (Contact) parent.getItemAtPosition(position);
+                Toast.makeText(ContactActivity.this, "Clicked on: " + selectedItem.getName(),
+                        Toast.LENGTH_LONG).show();
+
+                Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getName()) +
+                        "  ID is: " + String.valueOf(selectedItem.getId()));
+
+                String nameDeleted = selectedItem.getName();
+
+                deleteContactButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    public void onClick(View view) {
 
-                        Contact selectedItem = (Contact) parent.getItemAtPosition(position);
-                        Toast.makeText(ContactActivity.this, "Clicked on: " + selectedItem.getName(),
-                                Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(deleteContactButton.getContext());
+                        builder.setMessage("Slett kontakt ")
+                                .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Perform the contact deletion here
+                                        contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
+                                        contactArrayAdapter.notifyDataSetChanged();
 
-                        Log.d("Selected contact ID", "Name selected is: "+String.valueOf(selectedItem.getName())+
-                                "  ID is: "+String.valueOf(selectedItem.getId()));
+                                        Boolean deleted = contactAdapter.deleteContact(selectedItem.getId());
+                                        Toast.makeText(ContactActivity.this, "Contact " + nameDeleted + " is deleted.",
+                                                    Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // User clicked "Cancel," do nothing
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
 
-                        String nameDeleted= selectedItem.getName();
 
-                   deleteContactButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
 
-                                viewDialog(view);
 
-                         contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
-                         contactArrayAdapter.notifyDataSetChanged();
 
-                         Boolean deleted = contactAdapter.deleteContact(selectedItem.getId());
-                                if(deleted){
-                                    Toast.makeText(ContactActivity.this, "Contact " + nameDeleted + " is deleted.",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                                else {
-                                    Toast.makeText(ContactActivity.this, " Please select a contact to delete.",
-                                            Toast.LENGTH_LONG).show();
-                                }
+
                     }
                 });
-
-
             }
         });
-    }
-}
+
+
+
+
+
+                }
+                    }
+
+
 
 
                 /*    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
