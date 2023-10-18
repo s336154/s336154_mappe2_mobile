@@ -1,10 +1,17 @@
 package com.example.s336154_mappe2;
+import static android.app.DownloadManager.COLUMN_ID;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+
     private static final String DATABASE_NAME = "ContactsAndMeetings.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -69,5 +76,116 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return contactId;
     }
+
+    public void deleteContact(long contactId) {
+        SQLiteDatabase db = this.getWritableDatabase(); // Open a writable database connection
+
+        // Define the table name and the condition for deletion (e.g., by ID)
+        String tableName = "contacts";
+        String condition = "id = ?"; // Modify this condition based on your criteria
+        String[] selectionArgs = {String.valueOf(contactId)}; // The value to match in the condition
+
+        // Execute the delete query
+        db.delete(tableName, condition, selectionArgs);
+
+        db.close(); // Close the database connection
+    }
+
+
+    public long insertContact(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CONTACTS_COLUMN_NAME, name);
+        return db.insert(CONTACTS_TABLE_NAME, null, values);
+    }
+
+    public Cursor getAllContacts() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + CONTACTS_TABLE_NAME, null);
+    }
+
+    public long getContactIdByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + CONTACTS_TABLE_NAME +
+                " WHERE " + CONTACTS_COLUMN_NAME + " = ?", new String[]{name});
+
+        if (cursor.moveToFirst()) {
+            return cursor.getLong(0);
+        }
+        return -1; // Contact not found
+    }
+
+    public boolean deleteContactById(long contactId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int numRowsDeleted = db.delete(CONTACTS_TABLE_NAME, COLUMN_ID + " = ?",
+                new String[]{String.valueOf(contactId)});
+        return numRowsDeleted > 0;
+    }
+
+    public void deleteAllContacts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CONTACTS_TABLE_NAME);
+    }
+
+    public ArrayList<String> getItemsFromColumnName() {
+        ArrayList<String> items = new ArrayList<>();
+
+        // Open the database for reading
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        // Specify the table and column you want to retrieve data from
+        String tableName = "CONTACTS_TABLE_NAME";
+        String columnName = "CONTACTS_COLUMN_NAME";
+
+        // Query the database to get the items from the specified column
+        Cursor cursor = database.query(tableName, new String[]{columnName}, null,
+                null, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    int int_cursor = cursor.getColumnIndex(columnName);
+                    // Retrieve the data from the specified column
+                    String item = cursor.getString(int_cursor);
+                    items.add(item);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return items;
+    }
+
+    public ArrayList<String> getItemsFromColumnPhone() {
+        ArrayList<String> items = new ArrayList<>();
+
+        // Open the database for reading
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        // Specify the table and column you want to retrieve data from
+        String tableName = "CONTACTS_TABLE_NAME";
+        String columnName = "CONTACTS_COLUMN_PHONE";
+
+        // Query the database to get the items from the specified column
+        Cursor cursor = database.query(tableName, new String[]{columnName}, null,
+                null, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    int int_cursor = cursor.getColumnIndex(columnName);
+                    // Retrieve the data from the specified column
+                    String item = cursor.getString(int_cursor);
+                    items.add(item);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return items;
+    }
+
+
+
+
+
 
 }

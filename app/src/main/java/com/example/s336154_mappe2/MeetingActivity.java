@@ -15,6 +15,7 @@ import android.widget.EditText;
 import java.util.List;
 public class MeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
+    private ContactAdapter contactAdapter;
     private EditText editMeetingTime, editMeetingDate, editMeetingPlace;
     private SQLiteDatabase database;
     private DatabaseHelper dbHelper;
@@ -44,11 +45,16 @@ public class MeetingActivity extends AppCompatActivity {
         String columnName = "CONTACTS_COLUMN_ID"; // Replace with the actual column name
         String columnValue = "John"; // Replace with the actual value you're searching for
 
+        /*
         String query = "SELECT id FROM contacts WHERE " + columnName + " = ?";
         String[] selectionArgs = { columnValue };
 
 
+
+
         Cursor cursor = db.rawQuery(query, selectionArgs);
+
+         */
 
 
 
@@ -62,7 +68,7 @@ public class MeetingActivity extends AppCompatActivity {
                 String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
 
-                long contactId = -1; // Initialize with a default value
+     /*           long contactId = contactAdapter.insertContact();; // Initialize with a default value
 
                 if (cursor.moveToFirst()) {
                     contactId = cursor.getLong(0); // Assuming the ID is in the first column (index 0)
@@ -74,6 +80,8 @@ public class MeetingActivity extends AppCompatActivity {
                 // Create a new Contact object and save it to the database
                 Meeting meeting = new Meeting(time, date, place, contactId);
                 long meetingId = meetingAdapter.insertMeeting(meeting);
+
+      */
             }
         });
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         dataSource = new DataSource(this);
         dataSource.open();
 
+
+        /*
         // Insert a new contact
         Contact contact = new Contact("John Doe", "123-456-7890");
         long contactId = dataSource.insertContact(contact);
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         // Insert a meeting associated with the contact
         Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A", contactId);
         dataSource.insertMeeting(meeting);
+
+         */
 
         // Retrieve all contacts and meetings
         Cursor contactCursor = dataSource.getAllContacts();
@@ -51,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(toMeetings);
             } });
 
+
     }
+
+
+
 
     @Override
     protected void onDestroy() {

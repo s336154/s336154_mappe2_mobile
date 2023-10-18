@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddContactActivity">
+
+    <EditText
+        android:id="@+id/editContactName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        />
+
+    <EditText
+        android:id="@+id/editContactPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone"
+        />
+
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:rowCount="1"
+        android:layout_gravity="center">
+
+
+    <Button
+        android:id="@+id/fromAddToContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tilbake til kontakter"
+        android:layout_column="0"
+        android:layout_row="0" />
+
+    <Button
+        android:id="@+id/saveContactButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Contact"
+        android:layout_column="1"
+        android:layout_row="0" />
+
+    </GridLayout>
+
+</LinearLayout>
