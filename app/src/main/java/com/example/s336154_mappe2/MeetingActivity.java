@@ -40,7 +40,7 @@ public class MeetingActivity extends AppCompatActivity {
 
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButton);
-        Button deleteContactButton = findViewById(R.id.deleteMeetingButton);
+        Button deleteMeetingButton = findViewById(R.id.deleteMeetingButton);
 
 
        long contactID = getIntent().getExtras().getLong("contactId", 0);
@@ -80,7 +80,7 @@ public class MeetingActivity extends AppCompatActivity {
             }
         });
 
-        deleteContactButton.setOnClickListener(new View.OnClickListener() {
+        deleteMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
