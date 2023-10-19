@@ -16,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class EditContactActivity extends AppCompatActivity {
-
-
     private ContactAdapter contactAdapter;
     private ArrayAdapter<Contact> contactArrayAdapter;
     private List<Contact> contactsList;

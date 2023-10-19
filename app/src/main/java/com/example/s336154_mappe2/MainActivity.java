@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor meetingCursor = meetingAdapter.getAllMeetings();
 
+        Button editMeeting =findViewById(R.id.editMeetingButton);
+        Intent editMeetingIntent =new Intent(this, EditMeetingActivity.class);
+
         meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -78,8 +81,23 @@ public class MainActivity extends AppCompatActivity {
                         + selectedItem.getDate() + " på " + selectedItem.getPlace() +
                         " kl " + selectedItem.getTime(), Toast.LENGTH_LONG).show();
 
-                Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getPlace()) +
+                Log.d("Selected contact ID", "Name of place selected is: " + String.valueOf(selectedItem.getPlace()) +
                         "  ID is: " + String.valueOf(selectedItem.getId()));
+
+
+                editMeeting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editMeetingIntent.putExtra("contactID", selectedItem.getContactId());
+                        editMeetingIntent.putExtra("meetingID", selectedItem.getId());
+                        editMeetingIntent.putExtra("meetingComment", selectedItem.getComment());
+                        editMeetingIntent.putExtra("meetingPlace",selectedItem.getPlace());
+                        editMeetingIntent.putExtra("meetingDate",selectedItem.getDate() );
+                        editMeetingIntent.putExtra("meetingTime",selectedItem.getTime() );
+                        editMeetingIntent.putExtra("position",position );
+                        startActivity(editMeetingIntent);
+                    }
+                });
             };
                                                });
 
@@ -92,14 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(toContacts);
             } });
 
-        Button toMeetingsButt =findViewById(R.id.editMeetingButton);
-        Intent toMeetings =new Intent(this, MeetingActivity.class);
-        toMeetingsButt.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                startActivity(toMeetings);
-            } });
+        Button editMeetingsButt =findViewById(R.id.editMeetingButton);
+        Intent editMeetingsIntent =new Intent(this, EditMeetingActivity.class);
 
-        Button deleteMeetingButt =findViewById(R.id.editMeetingButton);
+
+
+        Button editMeetingButt =findViewById(R.id.editMeetingButton);
         meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -119,33 +135,25 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("meeting Id", "ID is: " + String.valueOf(meetingId));
 
-                deleteMeetingButt.setOnClickListener(new View.OnClickListener() {
+
+
+                editMeetingsButt.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(deleteMeetingButt.getContext());
-                        builder.setMessage("Vil du slette avtalen med dato " +dateDeleted+ " ?")
-                                .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Perform the contact deletion here
-                                        meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
-                                        meetingArrayAdapter.notifyDataSetChanged();
+                        editMeetingIntent.putExtra("contactID", selectedItem.getContactId());
+                        editMeetingIntent.putExtra("meetingID", selectedItem.getId());
+                        editMeetingIntent.putExtra("meetingTime", selectedItem.getTime());
+                        editMeetingIntent.putExtra("meetingDate", selectedItem.getDate());
+                        editMeetingIntent.putExtra("meetingPlace", selectedItem.getPlace());
+                        editMeetingIntent.putExtra("meetingComment", selectedItem.getComment());
+                        editMeetingIntent.putExtra("position",position );
+                        startActivity(editMeetingIntent);
 
-                                        meetingAdapter.deleteMeeting(selectedItem.getId());
-
-                                        Toast.makeText(MainActivity.this, dateDeleted + " er slettet.",
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                })
-                                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        return;
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
                     }
                 });
+
+
 
 
             }

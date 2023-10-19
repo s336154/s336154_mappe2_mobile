@@ -63,9 +63,9 @@ public class MeetingActivity extends AppCompatActivity {
                 if (!time.isEmpty() && !place.isEmpty() && !date.isEmpty()) {
                     // Create a new Contact object and save it to the database
 
-                //    Meeting meeting = new Meeting(time, date, place,comment, contactID);
+
                     Meeting meeting = new Meeting(time, date, place,comment, contactID);
-               //     meetingAdapter.insertMeeting(meeting);
+
 
                     long contactId = meetingAdapter.insertMeeting(meeting);
                     meetingArrayAdapter.add(meeting);

@@ -1,0 +1,86 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".EditMeetingActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:textSize="38dp"
+        android:text="REDIGER AVTALE"
+        android:textFontWeight="@integer/material_motion_duration_long_2"/>
+
+    <EditText
+        android:id="@+id/editTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tid" />
+
+    <EditText
+        android:id="@+id/editDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dato" />
+
+    <EditText
+        android:id="@+id/editPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sted" />
+
+
+    <EditText
+        android:id="@+id/editComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Kommenter" />
+
+
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:rowCount="1">
+
+
+        <Button
+            android:id="@+id/meetingToMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tilbake"
+            android:layout_column="0"
+            android:layout_row="0" />
+
+
+
+        <Button
+            android:id="@+id/saveMeetingButt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lagre"
+            android:layout_column="1"
+            android:layout_row="0" />
+
+        <Button
+            android:id="@+id/deleteMeetingButt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Slett"
+            android:layout_column="2"
+            android:layout_row="0" />
+
+
+
+    </GridLayout>
+
+
+</LinearLayout>
