@@ -43,8 +43,10 @@ public class MeetingAdapter {
 
         meeting.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_ID)));
         meeting.setTime(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_TIME)));
-        meeting.setTime(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_DATE)));
-        meeting.setTime(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_PLACE)));
+        meeting.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_DATE)));
+        meeting.setPlace(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_PLACE)));
+        meeting.setComment(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_COMMENT)));
+    //    meeting.setContactId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID)));
         return meeting;
     }
 
@@ -72,6 +74,7 @@ public class MeetingAdapter {
         values.put(DatabaseHelper.MEETINGS_COLUMN_TIME, meeting.getTime());
         values.put(DatabaseHelper.MEETINGS_COLUMN_DATE, meeting.getDate());
         values.put(DatabaseHelper.MEETINGS_COLUMN_PLACE, meeting.getPlace());
+        values.put(DatabaseHelper.MEETINGS_COLUMN_COMMENT, meeting.getComment());
         values.put(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID, meeting.getContactId());
         return database.insert(DatabaseHelper.MEETINGS_TABLE_NAME, null, values);
     }
@@ -90,6 +93,7 @@ public class MeetingAdapter {
         values.put(DatabaseHelper.MEETINGS_COLUMN_TIME, meeting.getTime());
         values.put(DatabaseHelper.MEETINGS_COLUMN_DATE, meeting.getDate());
         values.put(DatabaseHelper.MEETINGS_COLUMN_PLACE, meeting.getPlace());
+        values.put(DatabaseHelper.MEETINGS_COLUMN_COMMENT, meeting.getComment());
         values.put(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID, meeting.getContactId());
         return database.update(DatabaseHelper.MEETINGS_TABLE_NAME, values,
                 DatabaseHelper.MEETINGS_COLUMN_ID + "=" + id, null) > 0;

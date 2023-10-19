@@ -109,7 +109,7 @@ public class ContactActivity extends AppCompatActivity {
                                         contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
                                         contactArrayAdapter.notifyDataSetChanged();
 
-                                        Boolean deleted = contactAdapter.deleteContact(selectedItem.getId());
+                                        contactAdapter.deleteContact(selectedItem.getId());
                                         Toast.makeText(ContactActivity.this, nameDeleted + " er slettet fra kontakt liste.",
                                                     Toast.LENGTH_LONG).show();
                                     }

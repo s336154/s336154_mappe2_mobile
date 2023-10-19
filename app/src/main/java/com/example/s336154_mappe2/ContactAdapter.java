@@ -79,7 +79,6 @@ public class ContactAdapter {
         Contact contact = new Contact();
 
         contact.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.CONTACTS_COLUMN_ID)));
-
         contact.setName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CONTACTS_COLUMN_NAME)));
         contact.setPhone(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CONTACTS_COLUMN_PHONE)));
         return contact;

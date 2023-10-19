@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.List;
 public class MeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
-    private EditText editMeetingTime, editMeetingDate, editMeetingPlace;
+    private EditText editMeetingTime, editMeetingDate, editMeetingPlace, editMeetingComment;
 
     private ArrayAdapter<Meeting> meetingArrayAdapter;
     private List<Meeting> meetingsList;
@@ -33,11 +33,11 @@ public class MeetingActivity extends AppCompatActivity {
         editMeetingTime = findViewById(R.id.editMeetingTime);
         editMeetingDate = findViewById(R.id.editMeetingDate);
         editMeetingPlace = findViewById(R.id.editMeetingPlace);
+        editMeetingComment = findViewById(R.id.editMeetingComment);
 
 
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButton);
-        Button deleteMeetingButton = findViewById(R.id.deleteMeetingButton);
         Button meetingToContactsButton = findViewById(R.id.meetingToContacts);
 
 
@@ -49,6 +49,8 @@ public class MeetingActivity extends AppCompatActivity {
         meetingArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, meetingsList);
 
+
+
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,11 +58,13 @@ public class MeetingActivity extends AppCompatActivity {
                 String time = editMeetingTime.getText().toString();
                 String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
+                String comment = editMeetingComment.getText().toString();
 
                 if (!time.isEmpty() && !place.isEmpty() && !date.isEmpty()) {
                     // Create a new Contact object and save it to the database
 
-                    Meeting meeting = new Meeting(time, date, place, contactID);
+                //    Meeting meeting = new Meeting(time, date, place,comment, contactID);
+                    Meeting meeting = new Meeting(time, date, place,comment, contactID);
                //     meetingAdapter.insertMeeting(meeting);
 
                     long contactId = meetingAdapter.insertMeeting(meeting);
@@ -73,6 +77,7 @@ public class MeetingActivity extends AppCompatActivity {
                     editMeetingTime.setText("");
                     editMeetingDate.setText("");
                     editMeetingPlace.setText("");
+                    editMeetingComment.setText("");
                 }
 
 
@@ -87,13 +92,6 @@ public class MeetingActivity extends AppCompatActivity {
             }
         });
 
-
-        deleteMeetingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
     }

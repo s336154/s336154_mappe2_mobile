@@ -47,19 +47,25 @@ public class MainActivity extends AppCompatActivity {
         meetingArrayAdapter.notifyDataSetChanged();
 
 
-/*
+    /*
         // Insert a new contact
-        Contact contact = new Contact("Contact nr. 2", "123-456-7890");
+        Contact contact = new Contact("Arald", "123-456-7890");
         long contactId = contactAdapter.insertContact(contact);
 
 
         // Insert a meeting associated with the contact
-        Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A", contactId);
+        Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A","Meeting with Arald", contactId);
         meetingAdapter.insertMeeting(meeting);
- */
+
+        Cursor contactCursor = contactAdapter.getAllContacts();
+
+     */
+
+
+
 
         // Retrieve all contacts and meetings
-        Cursor contactCursor = contactAdapter.getAllContacts();
+
         Cursor meetingCursor = meetingAdapter.getAllMeetings();
 
         meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,6 +98,59 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onClick(View view) {
                 startActivity(toMeetings);
             } });
+
+        Button deleteMeetingButt =findViewById(R.id.editMeetingButton);
+        meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Meeting selectedItem = (Meeting) parent.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, "Trykket på et avtale med dato : "
+                        + selectedItem.getDate() + " på " + selectedItem.getPlace() +
+                        " kl " + selectedItem.getTime(), Toast.LENGTH_LONG).show();
+
+                Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getPlace()) +
+                        "  ID is: " + String.valueOf(selectedItem.getId()));
+
+
+                String dateDeleted = selectedItem.getDate();
+                long meetingId = selectedItem.getId();
+
+                Log.d("meeting Id", "ID is: " + String.valueOf(meetingId));
+
+                deleteMeetingButt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(deleteMeetingButt.getContext());
+                        builder.setMessage("Vil du slette avtalen med dato " +dateDeleted+ " ?")
+                                .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Perform the contact deletion here
+                                        meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
+                                        meetingArrayAdapter.notifyDataSetChanged();
+
+                                        meetingAdapter.deleteMeeting(selectedItem.getId());
+
+                                        Toast.makeText(MainActivity.this, dateDeleted + " er slettet.",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+
+
+            }
+        });
+    }
 
         /*
 
@@ -149,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
          */
-    }
+
 
 
     @Override

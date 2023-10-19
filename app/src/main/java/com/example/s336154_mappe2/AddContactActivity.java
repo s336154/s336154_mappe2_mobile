@@ -71,6 +71,8 @@ public class AddContactActivity extends AppCompatActivity {
                     editContactName.setText("");
                     editContactPhone.setText("");
                 }
+                Toast.makeText(AddContactActivity.this, " Du må fylle ut Navn og Telefon nummer.",
+                        Toast.LENGTH_LONG).show();
             }
         });
 

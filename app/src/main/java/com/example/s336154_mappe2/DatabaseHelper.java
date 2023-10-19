@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     private static final String DATABASE_NAME = "ContactsAndMeetings.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Define table and column names for Contacts
     public static final String CONTACTS_TABLE_NAME = "contacts";
@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MEETINGS_COLUMN_TIME = "time";
     public static final String MEETINGS_COLUMN_DATE = "date";
     public static final String MEETINGS_COLUMN_PLACE = "place";
+    public static final String MEETINGS_COLUMN_COMMENT = "comment";
     public static final String MEETINGS_COLUMN_CONTACT_ID = "contact_id";
 
     public DatabaseHelper(Context context) {
@@ -47,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MEETINGS_COLUMN_TIME + " TEXT, " +
                 MEETINGS_COLUMN_DATE + " TEXT, " +
                 MEETINGS_COLUMN_PLACE + " TEXT, " +
+                MEETINGS_COLUMN_COMMENT + " TEXT, " +
                 MEETINGS_COLUMN_CONTACT_ID + " INTEGER, " +
                 "FOREIGN KEY (" + MEETINGS_COLUMN_CONTACT_ID + ") " +
                 "REFERENCES " + CONTACTS_TABLE_NAME + " (" + CONTACTS_COLUMN_ID + "))");
