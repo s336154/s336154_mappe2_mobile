@@ -38,17 +38,27 @@
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
+            android:columnCount="3"
             android:padding="16dp"
             android:orientation="horizontal"
             android:rowCount="1">
+
+
+          <Button
+              android:id="@+id/meetingToContacts"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Tilbake"
+              android:layout_column="0"
+              android:layout_row="0" />
+
 
         <Button
             android:id="@+id/deleteMeetingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tilbake"
-            android:layout_column="0"
+            android:layout_column="1"
             android:layout_row="0" />
 
         <Button
@@ -56,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lagre"
-            android:layout_column="1"
+            android:layout_column="2"
             android:layout_row="0" />
 
 

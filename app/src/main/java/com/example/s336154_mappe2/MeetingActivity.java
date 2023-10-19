@@ -17,10 +17,7 @@ import android.widget.Toast;
 import java.util.List;
 public class MeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
-    private ContactAdapter contactAdapter;
     private EditText editMeetingTime, editMeetingDate, editMeetingPlace;
-    private SQLiteDatabase database;
-    private DatabaseHelper dbHelper;
 
     private ArrayAdapter<Meeting> meetingArrayAdapter;
     private List<Meeting> meetingsList;
@@ -41,13 +38,14 @@ public class MeetingActivity extends AppCompatActivity {
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButton);
         Button deleteMeetingButton = findViewById(R.id.deleteMeetingButton);
+        Button meetingToContactsButton = findViewById(R.id.meetingToContacts);
 
 
        long contactID = getIntent().getExtras().getLong("contactId", 0);
        Log.d("contactID","contactID is " +String.valueOf(contactID));
 
-        meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
 
+        meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
         meetingArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, meetingsList);
 
@@ -63,10 +61,11 @@ public class MeetingActivity extends AppCompatActivity {
                     // Create a new Contact object and save it to the database
 
                     Meeting meeting = new Meeting(time, date, place, contactID);
-                    meetingAdapter.insertMeeting(meeting);
+               //     meetingAdapter.insertMeeting(meeting);
 
                     long contactId = meetingAdapter.insertMeeting(meeting);
                     meetingArrayAdapter.add(meeting);
+
                     // Handle item click here
                     Toast.makeText(MeetingActivity.this,  "Avtalen er lagret.",
                             Toast.LENGTH_LONG).show();
@@ -79,6 +78,15 @@ public class MeetingActivity extends AppCompatActivity {
 
             }
         });
+
+        Intent toContactsIntent = new Intent(this, ContactActivity.class);
+        meetingToContactsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(toContactsIntent);
+            }
+        });
+
 
         deleteMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,12 +101,10 @@ public class MeetingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        contactAdapter.open();
         meetingAdapter.open();}
     @Override
     protected void onPause() {
         super.onPause();
-        contactAdapter.close();
         meetingAdapter.close();
     }
 
@@ -106,7 +112,6 @@ public class MeetingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        contactAdapter.close();
         meetingAdapter.close();
     }
 }
