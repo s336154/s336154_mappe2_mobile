@@ -62,6 +62,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public long getContactIdByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + CONTACTS_TABLE_NAME +
+                " WHERE " + CONTACTS_COLUMN_NAME + " = ?", new String[]{name});
+
+        if (cursor.moveToFirst()) {
+            return cursor.getLong(0);
+        }
+        return -1; // Contact not found
+    }
+
+    public String getContactNameByID (long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + CONTACTS_COLUMN_NAME + " FROM " + CONTACTS_TABLE_NAME +
+                " WHERE " + CONTACTS_COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()) {
+            return cursor.getString(0);
+        }
+        return null; // Contact not found
+    }
+
+    public String getContactPhoneByID (long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + CONTACTS_COLUMN_PHONE + " FROM " + CONTACTS_TABLE_NAME +
+                " WHERE " + CONTACTS_COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()) {
+            return cursor.getString(0);
+        }
+        return null; // Contact not found
+    }
+
     public long getContactIdForMeeting(long meetingId) {
         SQLiteDatabase db = this.getReadableDatabase();
         long contactId = -1;  // Default value in case of an error
@@ -106,16 +139,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + CONTACTS_TABLE_NAME, null);
     }
 
-    public long getContactIdByName(String name) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + CONTACTS_TABLE_NAME +
-                " WHERE " + CONTACTS_COLUMN_NAME + " = ?", new String[]{name});
-
-        if (cursor.moveToFirst()) {
-            return cursor.getLong(0);
-        }
-        return -1; // Contact not found
-    }
 
     public boolean deleteContactById(long contactId) {
         SQLiteDatabase db = this.getWritableDatabase();

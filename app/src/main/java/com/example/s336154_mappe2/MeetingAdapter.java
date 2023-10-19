@@ -1,5 +1,9 @@
 package com.example.s336154_mappe2;
 
+import static android.app.DownloadManager.COLUMN_ID;
+
+import static com.example.s336154_mappe2.DatabaseHelper.CONTACTS_TABLE_NAME;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -98,6 +102,8 @@ public class MeetingAdapter {
         return database.update(DatabaseHelper.MEETINGS_TABLE_NAME, values,
                 DatabaseHelper.MEETINGS_COLUMN_ID + "=" + id, null) > 0;
     }
+
+
 }
 
 /*

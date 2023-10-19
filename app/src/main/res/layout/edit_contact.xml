@@ -7,22 +7,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".AddContactActivity">
+    tools:context=".EditContactActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
         android:textSize="38dp"
-        android:text="Legge Til Kontakt"
+        android:text="Rediger Kontakt"
         android:textFontWeight="@integer/material_motion_duration_long_2"/>
+
 
     <EditText
         android:id="@+id/editContactName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Navn"
-        />
+        android:hint="Navn" />
+
 
     <EditText
         android:id="@+id/editContactPhone"
@@ -34,38 +35,44 @@
 
     <GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:padding="16dp"
+        android:columnCount="4"
         android:orientation="horizontal"
-        android:rowCount="1"
-        android:layout_gravity="center">
+        android:rowCount="1">
 
 
-    <Button
-        android:id="@+id/fromAddToContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tilbake"
-        android:layout_column="0"
-        android:layout_row="0" />
+        <Button
+            android:id="@+id/fromAddToContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tilbake"
+            android:layout_column="0"
+            android:layout_row="0" />
 
-    <Button
-        android:id="@+id/saveContactButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lagre"
-        android:layout_column="2"
-        android:layout_row="0" />
+        <Button
+            android:id="@+id/saveContactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lagre"
+            android:layout_column="2"
+            android:layout_row="0" />
 
 
         <Button
             android:id="@+id/contactToMeetingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avtale"
+            android:text="Ny avtale"
             android:layout_column="1"
+            android:layout_row="0" />
+
+        <Button
+            android:id="@+id/deletecontact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Slett"
+            android:layout_column="3"
             android:layout_row="0" />
 
 

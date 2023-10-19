@@ -24,6 +24,7 @@
 
         <activity android:name=".ContactActivity"/>
         <activity android:name=".AddContactActivity"/>
+        <activity android:name=".EditContactActivity"/>
         <activity android:name=".MeetingActivity"/>
 
     </application>

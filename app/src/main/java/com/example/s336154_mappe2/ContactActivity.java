@@ -45,7 +45,7 @@ public class ContactActivity extends AppCompatActivity {
 
         // Implement onClick listeners for save and delete buttons
         Button saveContactButton = findViewById(R.id.addContactButton);
-        Button deleteContactButton = findViewById(R.id.deleteContactButton);
+     //   Button deleteContactButton = findViewById(R.id.deleteContactButton);
         Button editContact = findViewById(R.id.editContact);
         Button toMainActivity = findViewById(R.id.toMainButton);
 
@@ -60,6 +60,8 @@ public class ContactActivity extends AppCompatActivity {
 
         Intent addContactsIntent = new Intent(this, AddContactActivity.class);
         Intent toMainActivityIntent = new Intent(this, MainActivity.class);
+        Intent editContactsIntent = new Intent(this, EditContactActivity.class);
+
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +83,6 @@ public class ContactActivity extends AppCompatActivity {
 
 
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -92,43 +93,20 @@ public class ContactActivity extends AppCompatActivity {
                 Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getName()) +
                         "  ID is: " + String.valueOf(selectedItem.getId()));
 
-                String nameDeleted = selectedItem.getName();
+
                 long contactId = selectedItem.getId();
 
                 Log.d("contactId", "ID is: " + String.valueOf(contactId));
 
-                deleteContactButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(deleteContactButton.getContext());
-                        builder.setMessage("Vil du slette " +nameDeleted+ " ?")
-                                .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Perform the contact deletion here
-                                        contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
-                                        contactArrayAdapter.notifyDataSetChanged();
-
-                                        contactAdapter.deleteContact(selectedItem.getId());
-                                        Toast.makeText(ContactActivity.this, nameDeleted + " er slettet fra kontakt liste.",
-                                                    Toast.LENGTH_LONG).show();
-                                    }
-                                })
-                                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        return;
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
 
                 editContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                 //       addContactMeetingIntent.putExtra("contactId", contactId);
-                        //      startActivity(addContactMeetingIntent);
+                        editContactsIntent.putExtra("contactId", contactId);
+                        editContactsIntent.putExtra("contactName", selectedItem.getName());
+                        editContactsIntent.putExtra("contactPhone",selectedItem.getPhone() );
+                        editContactsIntent.putExtra("position",position );
+                       startActivity(editContactsIntent);
                     }
                 });
             }
