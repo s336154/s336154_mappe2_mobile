@@ -5,6 +5,7 @@ import static com.example.s336154_mappe2.DatabaseHelper.CONTACTS_COLUMN_NAME;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +26,7 @@ public class AddContactActivity extends AppCompatActivity {
     private List<Contact> contactsList;
     private DatabaseHelper dbHelper;
     private EditText editContactName, editContactPhone;
+    public long contactId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class AddContactActivity extends AppCompatActivity {
 
 
         Button saveContactButton = findViewById(R.id.saveContactButton);
+        Button addMeetingButton = findViewById(R.id.contactToMeetingButton);
 
         editContactName = findViewById(R.id.editContactName);
         editContactPhone = findViewById(R.id.editContactPhone);
@@ -59,7 +62,7 @@ public class AddContactActivity extends AppCompatActivity {
                 if (!name.isEmpty() && !phone.isEmpty()) {
                     // Create a new Contact object and save it to the database
                     Contact contact = new Contact(name, phone);
-                    long contactId = contactAdapter.insertContact(contact);
+                    contactId = contactAdapter.insertContact(contact);
                     contactArrayAdapter.add(contact);
                     // Handle item click here
                     Toast.makeText(AddContactActivity.this, name + " er lagret i kontakt liste",
@@ -79,6 +82,39 @@ public class AddContactActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 startActivity(addToContactsIntent);
+            }
+        });
+
+
+
+        Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
+        addMeetingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = editContactName.getText().toString();
+                String phone = editContactPhone.getText().toString();
+
+                if (!name.isEmpty() && !phone.isEmpty()) {
+                    // Create a new Contact object and save it to the database
+                    Contact contact = new Contact(name, phone);
+                    contactId = contactAdapter.insertContact(contact);
+                    contactArrayAdapter.add(contact);
+                    // Handle item click here
+                    Toast.makeText(AddContactActivity.this, name + " er lagret i kontakt liste",
+                            Toast.LENGTH_LONG).show();
+
+                    editContactName.setText("");
+                    editContactPhone.setText("");
+
+                    addContactMeetingIntent.putExtra("contactId", contactId);
+                    Log.d("Saved contact ID", String.valueOf(contactId));
+                    startActivity(addContactMeetingIntent);
+                }
+                else {
+                    return;
+                }
+
             }
         });
 

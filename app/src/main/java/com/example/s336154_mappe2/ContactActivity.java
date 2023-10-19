@@ -46,7 +46,7 @@ public class ContactActivity extends AppCompatActivity {
         // Implement onClick listeners for save and delete buttons
         Button saveContactButton = findViewById(R.id.addContactButton);
         Button deleteContactButton = findViewById(R.id.deleteContactButton);
-        Button addContactMeeting = findViewById(R.id.addContactMeeting);
+        Button editContact = findViewById(R.id.editContact);
         Button toMainActivity = findViewById(R.id.toMainButton);
 
         ListView contactListView = (ListView) findViewById(R.id.listView);
@@ -59,7 +59,6 @@ public class ContactActivity extends AppCompatActivity {
 
 
         Intent addContactsIntent = new Intent(this, AddContactActivity.class);
-        Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
         Intent toMainActivityIntent = new Intent(this, MainActivity.class);
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,11 +124,11 @@ public class ContactActivity extends AppCompatActivity {
                     }
                 });
 
-                addContactMeeting.setOnClickListener(new View.OnClickListener() {
+                editContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        addContactMeetingIntent.putExtra("contactId", contactId);
-                        startActivity(addContactMeetingIntent);
+                 //       addContactMeetingIntent.putExtra("contactId", contactId);
+                        //      startActivity(addContactMeetingIntent);
                     }
                 });
             }
