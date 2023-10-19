@@ -112,6 +112,9 @@ public class AddContactActivity extends AppCompatActivity {
                     startActivity(addContactMeetingIntent);
                 }
                 else {
+                    Toast.makeText(AddContactActivity.this, " Du må fylle ut Navn og Telefon nummer.",
+                            Toast.LENGTH_LONG).show();
+
                     return;
                 }
 
