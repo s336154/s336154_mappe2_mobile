@@ -2,13 +2,26 @@ package com.example.s336154_mappe2;
 
 import static android.app.ProgressDialog.show;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+
+import static java.security.AccessController.getContext;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.os.LocaleListCompat;
+import androidx.preference.PreferenceManager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,10 +40,15 @@ public class MainActivity extends AppCompatActivity {
     private List<Meeting> meetingsList;
     private ArrayAdapter<Meeting> meetingArrayAdapter;
 
+    private boolean sms;
+
+    private static final int SEND_SMS_PERMISSION_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         meetingAdapter = new MeetingAdapter(this);
         meetingAdapter.open();
@@ -165,66 +183,77 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
 
-        /*
-
-        meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        Button preferanseButt = findViewById(R.id.preferenseButton);
+        Intent prefIntent =new Intent(this,SettingsActivity.class);
+        preferanseButt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Meeting selectedItem = (Meeting) parent.getItemAtPosition(position);
-                // Handle item click here
-                Toast.makeText(MainActivity.this, "Trykket på et avtale med dato : "
-                        +selectedItem.getDate()+" på " + selectedItem.getPlace()+
-                        " kl " +  selectedItem.getTime(), Toast.LENGTH_LONG).show();
-
-                Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getPlace()) +
-                        "  ID is: " + String.valueOf(selectedItem.getId()));
-
-                String nameDeleted = selectedItem.getName();
-
-                deleteContactButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(deleteContactButton.getContext());
-                        builder.setMessage("Slett kontakt ")
-                                .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Perform the contact deletion here
-                                        contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
-                                        contactArrayAdapter.notifyDataSetChanged();
-
-                                        Boolean deleted = contactAdapter.deleteContact(selectedItem.getId());
-                                        Toast.makeText(ContactActivity.this, "Contact " + nameDeleted + " is deleted.",
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                })
-                                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User clicked "Cancel," do nothing
-                                        return;
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
-
-                addContactMeeting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(addContactMeetingIntent);
-                    }
-                });
+            public void onClick(View view) {
+                startActivity(prefIntent);
             }
         });
 
-         */
+        SharedPreferences sharedPref = getDefaultSharedPreferences(this);
+        sms = sharedPref.getBoolean("activateSMS", true);
+        String Str_sms = String.valueOf(sms);
+
+        Log.d("Logged", String.valueOf(sms));
+
+        if (Str_sms == "true"){
+
+    //        sendMessage();
+
+        }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String selectedTime = sharedPreferences.getString("user_selected_time", "12:00"); // Default time if not set
 
 
+
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.SEND_SMS},
+                    SEND_SMS_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == SEND_SMS_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED) {
+            } else {
+
+                Toast.makeText(this, "SMS Tillatelse ikke gitt. Du kan ikke sende SMS.", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPref = getDefaultSharedPreferences(this);
+                sharedPref.edit().putBoolean("activateSMS", false).apply();
+
+            }
+        }
+
+
+    }
+
+    /*
+    private void sendMessage() {
+        String phoneNumber = telefon.getText().toString();
+        String message = melding.getText().toString();
+
+        if (!phoneNumber.isEmpty() && !message.isEmpty()) {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(this, "SMS sendt", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "Skriv inn telefon og melding.", Toast.LENGTH_SHORT).show(); } }
+
+     */
 
     @Override
     protected void onResume() {

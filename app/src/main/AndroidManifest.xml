@@ -27,9 +27,15 @@
         <activity android:name=".EditContactActivity"/>
         <activity android:name=".MeetingActivity"/>
         <activity android:name=".EditMeetingActivity"/>
+        <activity android:name=".SettingsActivity"/>
+
 
     </application>
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

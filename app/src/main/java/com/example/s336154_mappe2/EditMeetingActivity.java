@@ -91,6 +91,7 @@ public class EditMeetingActivity extends AppCompatActivity {
 
         String checkHour = String.valueOf(timeArray[0].charAt(0));
         String checkMinute = String.valueOf(timeArray[1].charAt(0));
+        String checkDay = String.valueOf(dateArray[2].charAt(0));
 
         if(dateArray[1].length()==2) {
             String checkMonth = String.valueOf(dateArray[1].charAt(0));
@@ -100,8 +101,6 @@ public class EditMeetingActivity extends AppCompatActivity {
             }
         }
 
-        String checkDay = String.valueOf(dateArray[2].charAt(0));
-
 
         if (checkHour == "0"){
             timeArray[0].split("0",1);
@@ -110,7 +109,6 @@ public class EditMeetingActivity extends AppCompatActivity {
         if (checkMinute == "0"){
             timeArray[1].split("0",1);
         }
-
 
 
         if (checkDay == "0"){
@@ -142,11 +140,6 @@ public class EditMeetingActivity extends AppCompatActivity {
         timePicker.setMinute(timeMinute);
 
 
-
-
-
-
-
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
 
             private String  pad(int value) {
@@ -161,8 +154,6 @@ public class EditMeetingActivity extends AppCompatActivity {
                 //     String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
                 String comment = editMeetingComment.getText().toString();
-
-
 
 
                 int year = datePicker.getYear();
@@ -184,8 +175,12 @@ public class EditMeetingActivity extends AppCompatActivity {
 
 
                     Meeting meeting = new Meeting(time, date, place,comment, contactID);
+
                     meetingAdapter.updateMeeting(meetingID,meeting);
                     meetingArrayAdapter.add(meeting);
+
+                    meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
+                    meetingArrayAdapter.notifyDataSetChanged();
 
                     if(time != meetingTime && place != meetingPlace && date != meetingDate &&
                             comment != meetingComment) {

@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="General Settings">
+
+
+    <EditTextPreference
+        android:key="messageSMS"
+        android:title="SMS Melding"
+        android:summary="Skriv inn meldingen .."
+        android:defaultValue="Hei. Dette er en påminelse på avtalen som vi har i dag. Vi ses!"
+        android:inputType="text" />
+
+
+    <CheckBoxPreference
+        android:key="activateSMS"
+        android:title="SMS"
+        android:summary="Send SMS til venner"
+        android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="SMS Sending Tid">
+
+        <Preference
+            android:key="user_selected_time"
+            android:title="Set Time"
+            android:layout="@layout/time_preference" />
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
+

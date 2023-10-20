@@ -10,8 +10,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MeetingAdapter {
     private SQLiteDatabase database;
@@ -122,6 +125,50 @@ public class MeetingAdapter {
         return contactId;
     }
 
+
+    public ArrayList<Long> checkMeetingDate() {
+        // Get today's date in the "yyyy-MM-dd" format
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String todayDate = sdf.format(new Date());
+
+// Query the database to find matches
+        String query = "SELECT * FROM " + DatabaseHelper.MEETINGS_TABLE_NAME + " WHERE "
+                + DatabaseHelper.MEETINGS_COLUMN_DATE + " = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{todayDate});
+
+        ArrayList<Long> contactIds = new ArrayList<>();
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    long contactId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID));
+                    contactIds.add(contactId);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return contactIds;
+    }
+
+    public String getContactPhone(long contactId) {
+
+        String phone= null;  // Default value in case of an error
+
+        String query = " SELECT " +DatabaseHelper.CONTACTS_COLUMN_PHONE+ " FROM "
+                +DatabaseHelper.CONTACTS_COLUMN_NAME+ " WHERE "
+                +DatabaseHelper.CONTACTS_COLUMN_ID+ " = ?";
+
+        String[] selectionArgs = {String.valueOf(contactId)};
+
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            phone = cursor.getString(0);  // Assumes contact_id is in the first column
+        }
+
+        cursor.close();
+        return phone;
+    }
 
 }
 
