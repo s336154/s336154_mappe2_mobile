@@ -97,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long getContactIdForMeeting(long meetingId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        long contactId = -1;  // Default value in case of an error
+        long contactId = 0;  // Default value in case of an error
 
         String query = "SELECT contact_id FROM meetings WHERE id = ?";
         String[] selectionArgs = {String.valueOf(meetingId)};

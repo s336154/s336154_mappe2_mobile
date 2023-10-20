@@ -103,6 +103,25 @@ public class MeetingAdapter {
                 DatabaseHelper.MEETINGS_COLUMN_ID + "=" + id, null) > 0;
     }
 
+    public long getContactIdForMeeting(long meetingId) {
+
+        long contactId = 0;  // Default value in case of an error
+
+        String query = " SELECT " +DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID+ " FROM "
+                       +DatabaseHelper.MEETINGS_TABLE_NAME+ " WHERE "
+                +DatabaseHelper.MEETINGS_COLUMN_ID+ " = ?";
+        String[] selectionArgs = {String.valueOf(meetingId)};
+
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            contactId = cursor.getLong(0);  // Assumes contact_id is in the first column
+        }
+
+        cursor.close();
+        return contactId;
+    }
+
 
 }
 

@@ -88,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
                 editMeeting.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        Log.d("contactID","contactID from Main is: "
+                                +String.valueOf(selectedItem.getContactId()));
+
+                        Log.d("contactID","meetingID from Main is: "
+                                +String.valueOf(selectedItem.getId()));
+
                         editMeetingIntent.putExtra("contactID", selectedItem.getContactId());
                         editMeetingIntent.putExtra("meetingID", selectedItem.getId());
                         editMeetingIntent.putExtra("meetingComment", selectedItem.getComment());

@@ -66,7 +66,7 @@ public class EditMeetingActivity extends AppCompatActivity {
         meetingArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, meetingsList);
 
-        long contactID = getIntent().getExtras().getLong("contactID", 0);
+       // long contactID = getIntent().getExtras().getLong("contactID", 0);
         long meetingID = getIntent().getExtras().getLong("meetingID", 0);
         int position =  getIntent().getExtras().getInt("position", 0);
         String meetingTime = getIntent().getExtras().getString("meetingTime", null);
@@ -74,7 +74,10 @@ public class EditMeetingActivity extends AppCompatActivity {
         String meetingPlace = getIntent().getExtras().getString("meetingPlace", null);
         String meetingComment = getIntent().getExtras().getString("meetingComment", null);
 
-        Log.d("contactID","contactID is " +String.valueOf(contactID));
+        long contactID = meetingAdapter.getContactIdForMeeting(meetingID);
+
+        Log.d("contactID","contactID in EditMeeting is " +String.valueOf(contactID));
+        Log.d("contactID","meetingID in EditMeeting is " +String.valueOf(meetingID));
 
         editMeetingComment.setText(meetingComment);
         editMeetingPlace.setText(meetingPlace);

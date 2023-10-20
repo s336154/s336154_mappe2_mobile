@@ -71,7 +71,6 @@ public class EditContactActivity extends AppCompatActivity {
                 if (!name.isEmpty() && !phone.isEmpty()) {
                     // Create a new Contact object and save it to the database
 
-
                     Contact contact = new Contact(name, phone);
                     contactAdapter.updateContact(contactID,contact);
                     contactArrayAdapter.add(contact);
@@ -117,7 +116,7 @@ public class EditContactActivity extends AppCompatActivity {
 
 
                     Contact contact = new Contact(name, phone);
-                    contactId = contactAdapter.insertContact(contact);
+                    contactAdapter.updateContact(contactID, contact);
                     contactArrayAdapter.add(contact);
 
                     contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
@@ -132,8 +131,8 @@ public class EditContactActivity extends AppCompatActivity {
                     editContactName.setText("");
                     editContactPhone.setText("");
 
-                    addContactMeetingIntent.putExtra("contactId", contactId);
-                    Log.d("Saved contact ID", String.valueOf(contactId));
+                    addContactMeetingIntent.putExtra("contactId", contactID);
+                    Log.d("Saved contact ID", String.valueOf(contactID));
                     startActivity(addContactMeetingIntent);
                 }
 
