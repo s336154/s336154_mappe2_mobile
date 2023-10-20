@@ -61,6 +61,7 @@ public class AddContactActivity extends AppCompatActivity {
 
                 if (!name.isEmpty() && !phone.isEmpty()) {
                     // Create a new Contact object and save it to the database
+
                     Contact contact = new Contact(name, phone);
                     contactId = contactAdapter.insertContact(contact);
                     contactArrayAdapter.add(contact);

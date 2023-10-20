@@ -14,8 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.util.List;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import java.util.Calendar;
+import java.util.Date;
+
 public class EditMeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
     private EditText editMeetingTime, editMeetingDate, editMeetingPlace, editMeetingComment;
@@ -23,6 +32,10 @@ public class EditMeetingActivity extends AppCompatActivity {
     private ArrayAdapter<Meeting> meetingArrayAdapter;
     private List<Meeting> meetingsList;
     public long contactId;
+
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+    private String[] dateArray, timeArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +46,20 @@ public class EditMeetingActivity extends AppCompatActivity {
         meetingAdapter = new MeetingAdapter(this);
         meetingAdapter.open();
 
-        editMeetingTime = findViewById(R.id.editTime);
-        editMeetingDate = findViewById(R.id.editDate);
+        //    editMeetingTime = findViewById(R.id.editTime);
+        //    editMeetingDate = findViewById(R.id.editDate);
         editMeetingPlace = findViewById(R.id.editPlace);
         editMeetingComment = findViewById(R.id.editComment);
 
+        datePicker = findViewById(R.id.datePicker);
+        timePicker = findViewById(R.id.timePicker);
+
+        timePicker.setIs24HourView(true);
 
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButt);
         Button deleteMeetingButton = findViewById(R.id.deleteMeetingButt);
         Button meetingToMainButton = findViewById(R.id.meetingToMain);
-
-
-
-
-
 
 
         meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
@@ -64,23 +76,105 @@ public class EditMeetingActivity extends AppCompatActivity {
 
         Log.d("contactID","contactID is " +String.valueOf(contactID));
 
-
         editMeetingComment.setText(meetingComment);
-        editMeetingDate.setText(meetingDate);
         editMeetingPlace.setText(meetingPlace);
-        editMeetingTime.setText(meetingTime);
+
+        //    editMeetingDate.setText(meetingDate);
+        //    editMeetingTime.setText(meetingTime);
+
+
+        dateArray = meetingDate.split("-");
+        timeArray = meetingTime.split(":");
+
+        String checkHour = String.valueOf(timeArray[0].charAt(0));
+        String checkMinute = String.valueOf(timeArray[1].charAt(0));
+
+        if(dateArray[1].length()==2) {
+            String checkMonth = String.valueOf(dateArray[1].charAt(0));
+
+            if (checkMonth == "0") {
+                dateArray[1].split("0", 1);
+            }
+        }
+
+        String checkDay = String.valueOf(dateArray[2].charAt(0));
+
+
+        if (checkHour == "0"){
+            timeArray[0].split("0",1);
+        }
+
+        if (checkMinute == "0"){
+            timeArray[1].split("0",1);
+        }
+
+
+
+        if (checkDay == "0"){
+            dateArray[2].split("0",1);
+        }
+
+        int timeHour = Integer.parseInt(timeArray[0]);
+        int timeMinute = Integer.parseInt(timeArray[1]);
+
+        int dateYear = Integer.parseInt(dateArray[0]);
+        int dateMonth = Integer.parseInt(dateArray[1]) -1;
+        int dateDay = Integer.parseInt(dateArray[2]);
+
+        Log.d("Rediger avtale","Month is: " +String.valueOf(dateArray[1]));
+        Log.d("Rediger avtale","Day is: " +String.valueOf(dateArray[2]));
+
+
+    /*
+        int meetingYear = datePicker.getYear();
+        int meetingMonth = datePicker.getMonth() + 1; // Month is zero-based, so add 1
+        int meetingDay = datePicker.getDayOfMonth();
+        int meetingHour = timePicker.getHour();
+        int meetingMinute = timePicker.getMinute();
+
+     */
+
+        datePicker.init(dateYear, dateMonth, dateDay, null);
+        timePicker.setHour(timeHour); // 24-hour format: 15 for 3:00 PM
+        timePicker.setMinute(timeMinute);
+
+
+
+
 
 
 
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
+
+            private String  pad(int value) {
+                // Helper method to ensure leading zero for single-digit values
+                return (value < 10) ? "0" + value : String.valueOf(value);
+            }
             @Override
             public void onClick(View v) {
 
                 // Read the user input from editContactName and editContactPhone
-                String time = editMeetingTime.getText().toString();
-                String date = editMeetingDate.getText().toString();
+                //     String time = editMeetingTime.getText().toString();
+                //     String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
                 String comment = editMeetingComment.getText().toString();
+
+
+
+
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth() + 1; // Month is zero-based, so add 1
+                int day = datePicker.getDayOfMonth();
+                int hour = timePicker.getHour();
+                int minute = timePicker.getMinute();
+
+                // Convert the values to String representations
+                String date = year + "-" + pad(month) + "-" + pad(day);
+                String time = pad(hour) + ":" + pad(minute);
+
+                // You can now use dateString and timeString as needed, e.g., display them or save to a database
+                String dateTimeString = date + " " + time;
+
 
                 if (!time.isEmpty() && !date.isEmpty() && !place.isEmpty()) {
                     // Create a new Contact object and save it to the database
