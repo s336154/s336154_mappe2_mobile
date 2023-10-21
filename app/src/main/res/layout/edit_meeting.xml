@@ -1,8 +1,7 @@
-
-<ScrollView
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -18,7 +17,10 @@
             android:fontFamily="casual"
             android:textSize="38dp"
             android:text="REDIGER AVTALE"
-            android:textFontWeight="@integer/material_motion_duration_long_2"/>
+            android:textFontWeight="@integer/material_motion_duration_long_2"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            />
         <!--
             <EditText
                 android:id="@+id/editTime"
@@ -121,16 +123,20 @@
             android:columnCount="3"
             android:padding="16dp"
             android:orientation="horizontal"
-            android:rowCount="1">
+            android:rowCount="1"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            >
 
 
             <Button
-                android:id="@+id/meetingToMain"
+                android:id="@+id/meetingToContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tilbake"
-                android:layout_column="0"
-                android:layout_row="0" />
+                android:text="Rediger kontakt"
+                android:layout_column="1"
+                android:layout_row="0"
+                />
 
 
 
@@ -139,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lagre"
-                android:layout_column="1"
+                android:layout_column="0"
                 android:layout_row="0" />
 
             <Button

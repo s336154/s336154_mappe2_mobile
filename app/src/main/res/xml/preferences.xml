@@ -5,29 +5,30 @@
         android:title="General Settings">
 
 
-    <EditTextPreference
-        android:key="messageSMS"
-        android:title="SMS Melding"
-        android:summary="Skriv inn meldingen .."
-        android:defaultValue="Hei. Dette er en påminelse på avtalen som vi har i dag. Vi ses!"
-        android:inputType="text" />
+        <CheckBoxPreference
+            android:key="activateSMS"
+            android:title="SMS"
+            android:summary="Send SMS til kontakter"
+            android:defaultValue="true" />
 
 
-    <CheckBoxPreference
-        android:key="activateSMS"
-        android:title="SMS"
-        android:summary="Send SMS til venner"
-        android:defaultValue="true" />
+        <EditTextPreference
+            android:key="clockSMS"
+            android:title="Sett Tid"
+            app:summary="Tid skal være i 24 timers format (eks: 15:30)"
+            android:defaultValue="06:00"
+            app:icon="@drawable/img"/>
 
-    </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="SMS Sending Tid">
 
-        <Preference
-            android:key="user_selected_time"
-            android:title="Set Time"
-            android:layout="@layout/time_preference" />
+        <EditTextPreference
+            android:key="messageSMS"
+            android:title="SMS Melding"
+            android:summary="Skriv inn meldingen som skal sendes .."
+            android:defaultValue="Hei. Dette er en påminelse på avtalen som vi har i dag. Vi ses!"
+            android:inputType="text" />
+
+
 
 
     </PreferenceCategory>

@@ -29,9 +29,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ContactAdapter contactAdapter;
     private List<Meeting> meetingsList;
     private ArrayAdapter<Meeting> meetingArrayAdapter;
+
+    ArrayList<Long> contactIDs;
 
     private boolean sms;
 
@@ -59,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         ListView meetingListView = (ListView) findViewById(R.id.listView);
         meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
 
+        MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(this, meetingsList);
 
-        meetingArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meetingsList);
+    //    meetingArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meetingsList);
         meetingListView.setAdapter(meetingArrayAdapter);
         meetingArrayAdapter.notifyDataSetChanged();
 
@@ -86,45 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor meetingCursor = meetingAdapter.getAllMeetings();
 
-        Button editMeeting =findViewById(R.id.editMeetingButton);
-        Intent editMeetingIntent =new Intent(this, EditMeetingActivity.class);
 
-        meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Meeting selectedItem = (Meeting) parent.getItemAtPosition(position);
-                // Handle item click here
-                Toast.makeText(MainActivity.this, "Trykket på et avtale med dato : "
-                        + selectedItem.getDate() + " på " + selectedItem.getPlace() +
-                        " kl " + selectedItem.getTime(), Toast.LENGTH_LONG).show();
-
-                Log.d("Selected contact ID", "Name of place selected is: " + String.valueOf(selectedItem.getPlace()) +
-                        "  ID is: " + String.valueOf(selectedItem.getId()));
-
-
-                editMeeting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Log.d("contactID","contactID from Main is: "
-                                +String.valueOf(selectedItem.getContactId()));
-
-                        Log.d("contactID","meetingID from Main is: "
-                                +String.valueOf(selectedItem.getId()));
-
-                        editMeetingIntent.putExtra("contactID", selectedItem.getContactId());
-                        editMeetingIntent.putExtra("meetingID", selectedItem.getId());
-                        editMeetingIntent.putExtra("meetingComment", selectedItem.getComment());
-                        editMeetingIntent.putExtra("meetingPlace",selectedItem.getPlace());
-                        editMeetingIntent.putExtra("meetingDate",selectedItem.getDate() );
-                        editMeetingIntent.putExtra("meetingTime",selectedItem.getTime() );
-                        editMeetingIntent.putExtra("position",position );
-                        startActivity(editMeetingIntent);
-                    }
-                });
-            };
-                                               });
 
         // Handle the retrieved data as needed
 
@@ -136,17 +105,17 @@ public class MainActivity extends AppCompatActivity {
             } });
 
         Button editMeetingsButt =findViewById(R.id.editMeetingButton);
-        Intent editMeetingsIntent =new Intent(this, EditMeetingActivity.class);
+        Intent editMeetingIntent =new Intent(this, EditMeetingActivity.class);
 
 
 
-        Button editMeetingButt =findViewById(R.id.editMeetingButton);
+
+
         meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Meeting selectedItem = (Meeting) parent.getItemAtPosition(position);
+                Meeting selectedItem = (Meeting) meetingsList.get(position);
                 Toast.makeText(MainActivity.this, "Trykket på et avtale med dato : "
                         + selectedItem.getDate() + " på " + selectedItem.getPlace() +
                         " kl " + selectedItem.getTime(), Toast.LENGTH_LONG).show();
@@ -159,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 long meetingId = selectedItem.getId();
 
                 Log.d("meeting Id", "ID is: " + String.valueOf(meetingId));
-
 
 
                 editMeetingsButt.setOnClickListener(new View.OnClickListener() {
@@ -194,19 +162,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
+        String selectedTime = sharedPref.getString("user_selected_time", "20:25"); // Default time if not set
+
         sms = sharedPref.getBoolean("activateSMS", true);
         String Str_sms = String.valueOf(sms);
 
         Log.d("Logged", String.valueOf(sms));
 
-        if (Str_sms == "true"){
+        LocalTime currentTime = LocalTime.now();
+        String timeNow = currentTime.toString();
 
-    //        sendMessage();
-
+        if (Str_sms == "true" && selectedTime == timeNow){
+                sendMessage();
         }
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String selectedTime = sharedPreferences.getString("user_selected_time", "12:00"); // Default time if not set
 
 
 
@@ -217,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{android.Manifest.permission.SEND_SMS},
                     SEND_SMS_PERMISSION_REQUEST_CODE);
         }
+
 
     }
 
@@ -240,20 +209,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*
+
     private void sendMessage() {
-        String phoneNumber = telefon.getText().toString();
-        String message = melding.getText().toString();
 
-        if (!phoneNumber.isEmpty() && !message.isEmpty()) {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
-            Toast.makeText(this, "SMS sendt", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(this, "Skriv inn telefon og melding.", Toast.LENGTH_SHORT).show(); } }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String phoneNumber = null;
+        contactIDs = meetingAdapter.checkMeetingDate();
+        if(!contactIDs.isEmpty()) {
+            for (int i = 0; i < contactIDs.size(); i++) {
+                phoneNumber = contactAdapter.getContactPhone(contactIDs.get(i));
 
-     */
+                String defaultSMS = "Hei. Dette er en påminelse på avtalen som vi har i dag. Vi ses!";
+                String message = sharedPreferences.getString("messageSMS",defaultSMS);
+
+                Log.d("phoneSMS", "Phone number is " +phoneNumber);
+
+                if (!phoneNumber.isEmpty() && !message.isEmpty()) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+
+
+                    Toast.makeText(this, "SMS sendt", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Skriv inn telefon og melding.", Toast.LENGTH_SHORT).show();
+                }
+            }} }
+
+
 
     @Override
     protected void onResume() {

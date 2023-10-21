@@ -1,12 +1,11 @@
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
         <TextView
             android:layout_width="wrap_content"
@@ -14,7 +13,10 @@
             android:fontFamily="casual"
             android:textSize="38dp"
             android:text="AVTALER"
-            android:textFontWeight="@integer/material_motion_duration_long_2"/>
+            android:textFontWeight="@integer/material_motion_duration_long_2"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="20dp"
+            />
 
         <GridLayout
             android:id="@+id/gridLayout"
@@ -24,15 +26,21 @@
             android:padding="16dp"
             android:orientation="horizontal"
             android:rowCount="1"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            >
 
         <Button
             android:id="@+id/toContactsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kontakt Liste"
+            android:text="Kontakter"
             android:layout_column="0"
-            android:layout_row="0" />
+            android:layout_row="0"
+            app:icon="@drawable/img_1"
+            android:theme="@style/Widget.Material3.Button.Icon"
+            />
 
             <Button
                 android:id="@+id/editMeetingButton"
@@ -51,6 +59,7 @@
             android:layout_row="0" />
 
         </GridLayout>
+
 
 
         <ListView android:id="@+id/listView"

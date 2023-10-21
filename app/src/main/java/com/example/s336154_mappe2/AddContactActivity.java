@@ -77,18 +77,6 @@ public class AddContactActivity extends AppCompatActivity {
             }
         });
 
-        Button fromAddToContacts = findViewById(R.id.fromAddToContacts);
-
-        Intent addToContactsIntent = new Intent(this, ContactActivity.class);
-        fromAddToContacts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(addToContactsIntent);
-            }
-        });
-
-
 
         Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
         addMeetingButton.setOnClickListener(new View.OnClickListener() {

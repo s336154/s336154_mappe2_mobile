@@ -27,6 +27,7 @@ import java.util.Date;
 
 public class EditMeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
+
     private EditText editMeetingTime, editMeetingDate, editMeetingPlace, editMeetingComment;
 
     private ArrayAdapter<Meeting> meetingArrayAdapter;
@@ -36,6 +37,7 @@ public class EditMeetingActivity extends AppCompatActivity {
     private DatePicker datePicker;
     private TimePicker timePicker;
     private String[] dateArray, timeArray;
+    private List<Contact> contactsList; // Initialize this list with your contacts
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class EditMeetingActivity extends AppCompatActivity {
 
         meetingAdapter = new MeetingAdapter(this);
         meetingAdapter.open();
+
+
 
         //    editMeetingTime = findViewById(R.id.editTime);
         //    editMeetingDate = findViewById(R.id.editDate);
@@ -59,7 +63,7 @@ public class EditMeetingActivity extends AppCompatActivity {
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButt);
         Button deleteMeetingButton = findViewById(R.id.deleteMeetingButt);
-        Button meetingToMainButton = findViewById(R.id.meetingToMain);
+        Button meetingToContactButton = findViewById(R.id.meetingToContact);
 
 
         meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
@@ -126,18 +130,17 @@ public class EditMeetingActivity extends AppCompatActivity {
         Log.d("Rediger avtale","Day is: " +String.valueOf(dateArray[2]));
 
 
-    /*
-        int meetingYear = datePicker.getYear();
-        int meetingMonth = datePicker.getMonth() + 1; // Month is zero-based, so add 1
-        int meetingDay = datePicker.getDayOfMonth();
-        int meetingHour = timePicker.getHour();
-        int meetingMinute = timePicker.getMinute();
-
-     */
 
         datePicker.init(dateYear, dateMonth, dateDay, null);
         timePicker.setHour(timeHour); // 24-hour format: 15 for 3:00 PM
         timePicker.setMinute(timeMinute);
+
+
+
+
+        // Constructor and other methods here
+
+        // Implement the getContactName method
 
 
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
@@ -202,12 +205,19 @@ public class EditMeetingActivity extends AppCompatActivity {
 
 
 
+        Intent toContactIntent = new Intent(this, EditContactActivity.class);
         Intent toMainIntent = new Intent(this, MainActivity.class);
-        meetingToMainButton.setOnClickListener(new View.OnClickListener() {
+        meetingToContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                startActivity(toMainIntent);
+                Log.d("EditContactID", "Contact ID is: " +String.valueOf(contactID));
+             //   String name = contactAdapter.getContactName(contactID);
+             //   String phone = contactAdapter.getContactPhone(contactID);
+
+                toContactIntent.putExtra("contactId", contactID);
+
+                startActivity(toContactIntent);
             }
         });
 

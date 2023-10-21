@@ -113,6 +113,7 @@ public class MeetingAdapter {
         String query = " SELECT " +DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID+ " FROM "
                        +DatabaseHelper.MEETINGS_TABLE_NAME+ " WHERE "
                 +DatabaseHelper.MEETINGS_COLUMN_ID+ " = ?";
+
         String[] selectionArgs = {String.valueOf(meetingId)};
 
         Cursor cursor = database.rawQuery(query, selectionArgs);
@@ -150,25 +151,6 @@ public class MeetingAdapter {
         return contactIds;
     }
 
-    public String getContactPhone(long contactId) {
-
-        String phone= null;  // Default value in case of an error
-
-        String query = " SELECT " +DatabaseHelper.CONTACTS_COLUMN_PHONE+ " FROM "
-                +DatabaseHelper.CONTACTS_COLUMN_NAME+ " WHERE "
-                +DatabaseHelper.CONTACTS_COLUMN_ID+ " = ?";
-
-        String[] selectionArgs = {String.valueOf(contactId)};
-
-        Cursor cursor = database.rawQuery(query, selectionArgs);
-
-        if (cursor.moveToFirst()) {
-            phone = cursor.getString(0);  // Assumes contact_id is in the first column
-        }
-
-        cursor.close();
-        return phone;
-    }
 
 }
 

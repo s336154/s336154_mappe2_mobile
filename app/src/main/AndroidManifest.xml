@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -27,8 +28,26 @@
         <activity android:name=".EditContactActivity"/>
         <activity android:name=".MeetingActivity"/>
         <activity android:name=".EditMeetingActivity"/>
-        <activity android:name=".SettingsActivity"/>
 
+        <activity android:name=".SettingsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.PREFERENCE" />
+            </intent-filter>
+        </activity>
+
+
+        <service
+            android:name=".MyService" android:enabled="true" android:exported="true" />
+
+        <service android:name=".MyPeriodicService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <receiver
+            android:name=".BootReceiver" android:enabled="true" android:exported="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED" > <intent-filter> <action android:name="android.intent.action.BOOT_COMPLETED" /> <category android:name="android.intent.category.DEFAULT" /> </intent-filter>
+        </receiver>
 
     </application>
 

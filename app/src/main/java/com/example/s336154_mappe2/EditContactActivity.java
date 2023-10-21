@@ -40,7 +40,16 @@ public class EditContactActivity extends AppCompatActivity {
         long contactID = getIntent().getExtras().getLong("contactId", 0);
         int position =  getIntent().getExtras().getInt("position", 0);
         String contactName = getIntent().getExtras().getString("contactName", null);
+
+        if (contactName == null){
+            contactName = contactAdapter.getContactName(contactID);
+        }
+
         String contactPhone = getIntent().getExtras().getString("contactPhone", null);
+
+        if (contactPhone == null){
+            contactPhone = contactAdapter.getContactPhone(contactID);
+        }
 
         editContactName = findViewById(R.id.editContactName);
         editContactPhone = findViewById(R.id.editContactPhone);
@@ -59,6 +68,8 @@ public class EditContactActivity extends AppCompatActivity {
         contactArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, contactsList);
 
+        String finalContactName = contactName;
+        String finalContactPhone = contactPhone;
 
 
         saveContactButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +86,7 @@ public class EditContactActivity extends AppCompatActivity {
                     contactAdapter.updateContact(contactID,contact);
                     contactArrayAdapter.add(contact);
 
-                    if(name != contactName && phone != contactPhone) {
+                    if(name != finalContactName && phone != finalContactPhone) {
                         Toast.makeText(EditContactActivity.this, "Endring ble lagret.",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -90,17 +101,7 @@ public class EditContactActivity extends AppCompatActivity {
             }
         });
 
-        Button fromAddToContacts = findViewById(R.id.fromAddToContacts);
-
         Intent addToContactsIntent = new Intent(this, ContactActivity.class);
-        fromAddToContacts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(addToContactsIntent);
-            }
-        });
-
 
 
         Intent addContactMeetingIntent = new Intent(this, MeetingActivity.class);
@@ -123,10 +124,12 @@ public class EditContactActivity extends AppCompatActivity {
                     contactArrayAdapter.notifyDataSetChanged();
 
 
-                    if(name != contactName && phone != contactPhone) {
+                    if(name != finalContactName && phone != finalContactPhone) {
                         Toast.makeText(EditContactActivity.this, "Endring ble lagret.",
                                 Toast.LENGTH_LONG).show();
                     }
+
+
 
                     editContactName.setText("");
                     editContactPhone.setText("");

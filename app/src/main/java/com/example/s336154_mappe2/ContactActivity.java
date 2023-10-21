@@ -28,7 +28,12 @@ public class ContactActivity extends AppCompatActivity {
 
     private ContactAdapter contactAdapter;
     private List<Contact> contactsList;
-    private ArrayAdapter<Contact> contactArrayAdapter;
+   // private ArrayAdapter<Contact> contactArrayAdapter;
+  //  private CustomAdapter adapter;
+
+
+
+
 
 
 
@@ -47,19 +52,30 @@ public class ContactActivity extends AppCompatActivity {
         Button saveContactButton = findViewById(R.id.addContactButton);
      //   Button deleteContactButton = findViewById(R.id.deleteContactButton);
         Button editContact = findViewById(R.id.editContact);
-        Button toMainActivity = findViewById(R.id.toMainButton);
+        Button toMeetingActivity = findViewById(R.id.toMeetingButton);
+
+
 
         ListView contactListView = (ListView) findViewById(R.id.listView);
         contactsList = (List<Contact>) contactAdapter.getContactsList();
 
 
+        CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(this, contactsList);
+
+        contactListView.setAdapter(contactArrayAdapter);
+
+        contactArrayAdapter.notifyDataSetChanged();
+
+
+/*
         contactArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactsList);
         contactListView.setAdapter(contactArrayAdapter);
         contactArrayAdapter.notifyDataSetChanged();
 
+*/
 
         Intent addContactsIntent = new Intent(this, AddContactActivity.class);
-        Intent toMainActivityIntent = new Intent(this, MainActivity.class);
+        Intent toMeetingActivityIntent = new Intent(this, MeetingActivity.class);
         Intent editContactsIntent = new Intent(this, EditContactActivity.class);
 
         saveContactButton.setOnClickListener(new View.OnClickListener() {
@@ -69,15 +85,6 @@ public class ContactActivity extends AppCompatActivity {
             }
         });
 
-        toMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(toMainActivityIntent);
-            }
-        });
-
-
-
 
         //    Intent deleteContactsIntent =new Intent(this, DeleteContactActivity.class);
 
@@ -85,8 +92,11 @@ public class ContactActivity extends AppCompatActivity {
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the position of the selected item
 
-                Contact selectedItem = (Contact) parent.getItemAtPosition(position);
+                Contact selectedItem = (Contact) contactsList.get(position);
+                Log.d("Base Selected Item", "Value is: "+String.valueOf(selectedItem));
+
                 Toast.makeText(ContactActivity.this, "Trykket på :  " + selectedItem.getName(),
                         Toast.LENGTH_LONG).show();
 
@@ -109,6 +119,16 @@ public class ContactActivity extends AppCompatActivity {
                        startActivity(editContactsIntent);
                     }
                 });
+
+                toMeetingActivity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        toMeetingActivityIntent.putExtra("contactId",selectedItem.getId());
+                        startActivity(toMeetingActivityIntent);
+                    }
+                });
+
             }
         });
         }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".AddContactActivity">
@@ -15,7 +15,10 @@
         android:fontFamily="casual"
         android:textSize="38dp"
         android:text="Legge Til Kontakt"
-        android:textFontWeight="@integer/material_motion_duration_long_2"/>
+        android:textFontWeight="@integer/material_motion_duration_long_2"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        />
 
     <EditText
         android:id="@+id/editContactName"
@@ -36,27 +39,22 @@
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="3"
+        android:columnCount="2"
         android:padding="16dp"
         android:orientation="horizontal"
         android:rowCount="1"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        >
 
-
-    <Button
-        android:id="@+id/fromAddToContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tilbake"
-        android:layout_column="0"
-        android:layout_row="0" />
 
     <Button
         android:id="@+id/saveContactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lagre"
-        android:layout_column="2"
+        android:layout_column="0"
         android:layout_row="0" />
 
 

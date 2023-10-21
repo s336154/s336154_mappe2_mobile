@@ -42,6 +42,7 @@ public class MeetingActivity extends AppCompatActivity {
         meetingAdapter = new MeetingAdapter(this);
         meetingAdapter.open();
 
+
         //    editMeetingTime = findViewById(R.id.editMeetingTime);
         //    editMeetingDate = findViewById(R.id.editMeetingDate);
         editMeetingPlace = findViewById(R.id.editMeetingPlace);
@@ -55,7 +56,7 @@ public class MeetingActivity extends AppCompatActivity {
 
         // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButton);
-        Button meetingToContactsButton = findViewById(R.id.meetingToContacts);
+
 
 
         long contactID = getIntent().getExtras().getLong("contactId", 0);
@@ -125,13 +126,7 @@ public class MeetingActivity extends AppCompatActivity {
             }
         });
 
-        Intent toContactsIntent = new Intent(this, ContactActivity.class);
-        meetingToContactsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(toContactsIntent);
-            }
-        });
+
 
 
 
