@@ -16,6 +16,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
         />
 
     <TextView
@@ -27,6 +28,7 @@
         android:text="Item Name"
         android:fontFamily="casual"
         android:layout_marginRight="12dp"
+        android:textStyle="bold"
         />
 
     <TextView
@@ -34,10 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="14dp"
+        android:textSize="15dp"
         android:padding="8dp"
         android:text="Item Phone"
-        android:fontFamily="casual"/>
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/placeView"
@@ -55,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:padding="8dp"
         android:text="Item Phone"
         android:fontFamily="casual"/>

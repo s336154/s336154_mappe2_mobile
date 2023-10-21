@@ -116,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Meeting selectedItem = (Meeting) meetingsList.get(position);
-                Toast.makeText(MainActivity.this, "Trykket på et avtale med dato : "
-                        + selectedItem.getDate() + " på " + selectedItem.getPlace() +
-                        " kl " + selectedItem.getTime(), Toast.LENGTH_LONG).show();
 
                 Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getPlace()) +
                         "  ID is: " + String.valueOf(selectedItem.getId()));

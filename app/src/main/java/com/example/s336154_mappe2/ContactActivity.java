@@ -32,11 +32,6 @@ public class ContactActivity extends AppCompatActivity {
   //  private CustomAdapter adapter;
 
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +92,6 @@ public class ContactActivity extends AppCompatActivity {
                 Contact selectedItem = (Contact) contactsList.get(position);
                 Log.d("Base Selected Item", "Value is: "+String.valueOf(selectedItem));
 
-                Toast.makeText(ContactActivity.this, "Trykket på :  " + selectedItem.getName(),
-                        Toast.LENGTH_LONG).show();
 
                 Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getName()) +
                         "  ID is: " + String.valueOf(selectedItem.getId()));

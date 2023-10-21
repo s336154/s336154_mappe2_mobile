@@ -86,14 +86,13 @@ public class EditContactActivity extends AppCompatActivity {
                     contactAdapter.updateContact(contactID,contact);
                     contactArrayAdapter.add(contact);
 
-                    if(name != finalContactName && phone != finalContactPhone) {
+                    if(name != finalContactName || phone != finalContactPhone) {
                         Toast.makeText(EditContactActivity.this, "Endring ble lagret.",
                                 Toast.LENGTH_LONG).show();
                     }
 
                 }
                 else {
-
                     Toast.makeText(EditContactActivity.this, " Du må fylle ut Navn og Telefon nummer.",
                             Toast.LENGTH_LONG).show();
                 }
@@ -124,15 +123,10 @@ public class EditContactActivity extends AppCompatActivity {
                     contactArrayAdapter.notifyDataSetChanged();
 
 
-                    if(name != finalContactName && phone != finalContactPhone) {
+                    if(name != finalContactName || phone != finalContactPhone) {
                         Toast.makeText(EditContactActivity.this, "Endring ble lagret.",
                                 Toast.LENGTH_LONG).show();
                     }
-
-
-
-                    editContactName.setText("");
-                    editContactPhone.setText("");
 
                     addContactMeetingIntent.putExtra("contactId", contactID);
                     Log.d("Saved contact ID", String.valueOf(contactID));
