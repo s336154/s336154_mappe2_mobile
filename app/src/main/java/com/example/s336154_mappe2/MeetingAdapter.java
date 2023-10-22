@@ -127,30 +127,6 @@ public class MeetingAdapter {
     }
 
 
-    public ArrayList<Long> checkMeetingDate() {
-        // Get today's date in the "yyyy-MM-dd" format
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String todayDate = sdf.format(new Date());
-
-// Query the database to find matches
-        String query = "SELECT * FROM " + DatabaseHelper.MEETINGS_TABLE_NAME + " WHERE "
-                + DatabaseHelper.MEETINGS_COLUMN_DATE + " = ?";
-        Cursor cursor = database.rawQuery(query, new String[]{todayDate});
-
-        ArrayList<Long> contactIds = new ArrayList<>();
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    long contactId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID));
-                    contactIds.add(contactId);
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-        return contactIds;
-    }
-
     public List<Long> getMeetingIdsWithTodayDate(Context context) {
 
         List<Long> matchingIds = new ArrayList<>();
@@ -200,5 +176,31 @@ public class MeetingAdapter {
         values.put(DatabaseHelper.MEETINGS_COLUMN_PLACE, meeting.getPlace());
         values.put(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID, meeting.getContactId());
         return database.insert(DatabaseHelper.MEETINGS_TABLE_NAME, null, values);
+    }
+ */
+
+/*
+    public ArrayList<Long> checkMeetingDate() {
+        // Get today's date in the "yyyy-MM-dd" format
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String todayDate = sdf.format(new Date());
+
+// Query the database to find matches
+        String query = "SELECT * FROM " + DatabaseHelper.MEETINGS_TABLE_NAME + " WHERE "
+                + DatabaseHelper.MEETINGS_COLUMN_DATE + " = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{todayDate});
+
+        ArrayList<Long> contactIds = new ArrayList<>();
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    long contactId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID));
+                    contactIds.add(contactId);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return contactIds;
     }
  */

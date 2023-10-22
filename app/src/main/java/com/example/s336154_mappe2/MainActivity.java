@@ -45,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private List<Meeting> meetingsList;
     private ArrayList<Long> contactIDs;
     private static final int SEND_SMS_PERMISSION_REQUEST_CODE = 1;
-    private String[] timeSMS_array;
-    private String hourSMS;
-    private String minuteSMS;
+    List<Long> meetingsIDs;
+
 
 
 
@@ -67,20 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
         MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(this, meetingsList);
 
-    //    meetingArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meetingsList);
+        //    meetingArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meetingsList);
         meetingListView.setAdapter(meetingArrayAdapter);
         meetingArrayAdapter.notifyDataSetChanged();
 
 
-        Button toContactsButt =findViewById(R.id.toContactsButton);
-        Intent toContacts =new Intent(this, ContactActivity.class);
+        Button toContactsButt = findViewById(R.id.toContactsButton);
+        Intent toContacts = new Intent(this, ContactActivity.class);
         toContactsButt.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
                 startActivity(toContacts);
-            } });
+            }
+        });
 
-        Button editMeetingsButt =findViewById(R.id.editMeetingButton);
-        Intent editMeetingIntent =new Intent(this, EditMeetingActivity.class);
+        Button editMeetingsButt = findViewById(R.id.editMeetingButton);
+        Intent editMeetingIntent = new Intent(this, EditMeetingActivity.class);
 
         meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         editMeetingIntent.putExtra("meetingDate", selectedItem.getDate());
                         editMeetingIntent.putExtra("meetingPlace", selectedItem.getPlace());
                         editMeetingIntent.putExtra("meetingComment", selectedItem.getComment());
-                        editMeetingIntent.putExtra("position",position );
+                        editMeetingIntent.putExtra("position", position);
                         startActivity(editMeetingIntent);
 
                     }
@@ -115,9 +116,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         Button preferanseButt = findViewById(R.id.preferenseButton);
-        Intent prefIntent =new Intent(this,SettingsActivity.class);
+        Intent prefIntent = new Intent(this, SettingsActivity.class);
         preferanseButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,65 +127,19 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
 
-        boolean prefNotif = sharedPref.getBoolean("activateNotification",true);
+        boolean prefNotif = sharedPref.getBoolean("activateNotification", true);
         String Str_prefNotif = String.valueOf(prefNotif);
-        Log.d("prefNotification",Str_prefNotif);
-        List<Long> meetingsIDs = meetingAdapter.getMeetingIdsWithTodayDate(this);
-        for(long i: meetingsIDs){
-            Log.d("Matching IDs","Meeting with ID +"+String.valueOf(i) + " takesplace today.");
-        }
+        Log.d("prefNotification", Str_prefNotif);
+
+        meetingsIDs = meetingAdapter.getMeetingIdsWithTodayDate(this);
 
 
-        if(Str_prefNotif  == "true" && meetingsIDs.size() >0 ){
-            Intent intent = new Intent(this,MyPeriodicService.class);
+        if (Str_prefNotif == "true" && meetingsIDs.size() > 0) {
+            Intent intent = new Intent(this, MyPeriodicService.class);
             this.startService(intent);
         }
 
-        boolean checkedSMS = sharedPref.getBoolean("activateSMS", true);
-        String Str_checkedSMS = String.valueOf(checkedSMS);
-        Log.d("checkedSMS", Str_checkedSMS);
 
-        String timeSMS = sharedPref.getString("timeSMS","");
-        Log.d("timeSMS", timeSMS);
-        boolean containNum = containsNumbers(timeSMS);
-
-        timeSMS_array = timeSMS.split("[.:\\\\/-]");
-
-        for(String i: timeSMS_array) {
-            Log.d("timeSMS_array","The array contains: " +i);
-        }
-
-        if(!timeSMS.isEmpty() && containNum == true && timeSMS_array.length <= 4){
-            int int_hourSMS = Integer.parseInt(timeSMS_array[0]);
-            int int_minSMS = Integer.parseInt(timeSMS_array[1]);
-
-            if(int_hourSMS <= 24 && int_minSMS <= 59) {
-
-            if(timeSMS_array[0].length() == 2){
-                if(timeSMS_array[0] != "00"){
-                    String checkHour1 = String.valueOf(timeSMS_array[0].charAt(0));
-                    if(checkHour1 == "0") {
-                            hourSMS = String.valueOf(timeSMS_array[0].charAt(1));
-                        }
-                    else {
-                        hourSMS = String.valueOf(timeSMS_array[0]);
-                    }
-                }
-                else {
-                    hourSMS = "00";
-                }
-            }
-            else {
-                hourSMS = String.valueOf(timeSMS_array[0]);
-            }
-            minuteSMS = String.valueOf(timeSMS_array[1]);
-
-                }
-            }
-
-
-        Log.d("timeSMS_hour", "Hour set is: " +hourSMS);
-        Log.d("timeSMS_minute", "Minute set is: " +minuteSMS);
 
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.SEND_SMS)
@@ -195,34 +149,32 @@ public class MainActivity extends AppCompatActivity {
                     SEND_SMS_PERMISSION_REQUEST_CODE);
         }
 
+        meetingsIDs = meetingAdapter.getMeetingIdsWithTodayDate(this);
+        for (long i : meetingsIDs) {
+            Log.d("Matching IDs", "Meeting with ID: " + String.valueOf(i) + " takesplace today.");
+        }
 
     }
 
-
-    public static boolean containsNumbers(String input) {
-        // Define a regular expression pattern to match numbers
-        Pattern pattern = Pattern.compile(".*\\d+.*");
-
-        // Use a Matcher to check if the input String contains numbers
-        Matcher matcher = pattern.matcher(input);
-
-        // Return true if numbers are found, false otherwise
-        return matcher.matches();
-    }
+    boolean grantedSMS;
 
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        SharedPreferences sharedPref = getDefaultSharedPreferences(this);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == SEND_SMS_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED) {
+
+                grantedSMS = true;
+                sharedPref.edit().putBoolean("activateSMS", true).apply();
+
             } else {
 
-                Toast.makeText(this, "SMS Tillatelse ikke gitt. Du kan ikke sende SMS.", Toast.LENGTH_SHORT).show();
-
-                SharedPreferences sharedPref = getDefaultSharedPreferences(this);
+                Toast.makeText(this, "SMS Tillatelse ikke gitt. Du kan ikke sende SMS.",
+                        Toast.LENGTH_SHORT).show();
                 sharedPref.edit().putBoolean("activateSMS", false).apply();
 
             }
@@ -230,31 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void sendMessage() {
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String phoneNumber = null;
-        contactIDs = meetingAdapter.checkMeetingDate();
-        if(!contactIDs.isEmpty()) {
-            for (int i = 0; i < contactIDs.size(); i++) {
-                phoneNumber = contactAdapter.getContactPhone(contactIDs.get(i));
-
-                String defaultSMS = "Hei. Dette er en påminelse på avtalen som vi har i dag. Vi ses!";
-                String message = sharedPreferences.getString("messageSMS",defaultSMS);
-
-                Log.d("phoneSMS", "Phone number is " +phoneNumber);
-
-                if (!phoneNumber.isEmpty() && !message.isEmpty()) {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNumber, null, message, null, null);
-
-
-                    Toast.makeText(this, "SMS sendt", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Skriv inn telefon og melding.", Toast.LENGTH_SHORT).show();
-                }
-            }}
-    }
 
     @Override
     protected void onResume() {
