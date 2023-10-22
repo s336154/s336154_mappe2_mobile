@@ -30,7 +30,6 @@ public class MyService extends Service {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 
-
         Intent i = new Intent(this, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_MUTABLE);
         Notification notifyAvtale = new NotificationCompat.Builder(this,"MinKanal")

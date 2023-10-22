@@ -12,8 +12,13 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.util.Calendar;
+import java.util.List;
+
 
 public class MyPeriodicService extends Service {
+
+    private MeetingAdapter meetingAdapter;
+    private ContactAdapter contactAdapter;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -23,15 +28,22 @@ public class MyPeriodicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        java.util.Calendar cal = Calendar.getInstance();
-        Intent i = new Intent(this, MyService.class);
-        PendingIntent pintent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_MUTABLE);
-        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 60 * 1000, pintent);
-        Log.d("PeriodicService", "Periodic Service started");
-        return super.onStartCommand(intent, flags, startId);
 
+           java.util.Calendar cal = Calendar.getInstance();
+           Intent i = new Intent(this, MyService.class);
+           PendingIntent pintent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_MUTABLE);
+           AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+           cal.setTimeInMillis(System.currentTimeMillis());
+           cal.set(Calendar.HOUR_OF_DAY, 6);
+           cal.set(Calendar.MINUTE, 0);
+           cal.set(Calendar.SECOND, 0);
+           if (cal.getTimeInMillis() <= System.currentTimeMillis()) {
+               cal.add(Calendar.DAY_OF_YEAR, 1); // Move to tomorrow
+           }
+           alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
 
+           Log.d("PeriodicService", "Periodic Service started");
 
+           return super.onStartCommand(intent, flags, startId);
     }
 }

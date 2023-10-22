@@ -66,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
         meetingListView.setAdapter(meetingArrayAdapter);
         meetingArrayAdapter.notifyDataSetChanged();
 
-        // Retrieve all contacts and meetings
-
-        Cursor meetingCursor = meetingAdapter.getAllMeetings();
-
-        // Handle the retrieved data as needed
 
         Button toContactsButt =findViewById(R.id.toContactsButton);
         Intent toContacts =new Intent(this, ContactActivity.class);
@@ -115,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         Button preferanseButt = findViewById(R.id.preferenseButton);
         Intent prefIntent =new Intent(this,SettingsActivity.class);
         preferanseButt.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +128,15 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("prefNotification",Str_prefNotif);
 
-        if(Str_prefNotif  == "true"){
+        List<Long> meetingsIDs = meetingAdapter.getMeetingIdsWithTodayDate(this);
+
+        for(long i: meetingsIDs){
+            Log.d("Matching IDs","Meeting with ID +"+String.valueOf(i) + " takesplace today.");
+        }
+
+
+
+        if(Str_prefNotif  == "true" && meetingsIDs.size() >0 ){
             Intent intent = new Intent(this,MyPeriodicService.class);
             this.startService(intent);
         }
@@ -142,24 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Logged", String.valueOf(sms));
 
-        /*
-        LocalTime currentTime = LocalTime.now();
-        String timeNow = currentTime.toString();
-
-        if (Str_sms == "true" && selectedTime == timeNow){
-                sendMessage();
-        }
-
-
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.SEND_SMS},
-                    SEND_SMS_PERMISSION_REQUEST_CODE);
-        }
-
-         */
     }
 
 
@@ -240,3 +226,23 @@ public class MainActivity extends AppCompatActivity {
         Cursor contactCursor = contactAdapter.getAllContacts();
 
      */
+
+
+        /*
+        LocalTime currentTime = LocalTime.now();
+        String timeNow = currentTime.toString();
+
+        if (Str_sms == "true" && selectedTime == timeNow){
+                sendMessage();
+        }
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.SEND_SMS},
+                    SEND_SMS_PERMISSION_REQUEST_CODE);
+        }
+
+         */
