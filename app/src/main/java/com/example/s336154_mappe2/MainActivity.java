@@ -36,15 +36,20 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
     private ContactAdapter contactAdapter;
     private List<Meeting> meetingsList;
-
-    ArrayList<Long> contactIDs;
-    private boolean sms;
+    private ArrayList<Long> contactIDs;
     private static final int SEND_SMS_PERMISSION_REQUEST_CODE = 1;
+    private String[] timeSMS_array;
+    private String hourSMS;
+    private String minuteSMS;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,19 +126,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
-        String selectedTime = sharedPref.getString("user_selected_time", "20:25"); // Default time if not set
 
         boolean prefNotif = sharedPref.getBoolean("activateNotification",true);
         String Str_prefNotif = String.valueOf(prefNotif);
-
         Log.d("prefNotification",Str_prefNotif);
-
         List<Long> meetingsIDs = meetingAdapter.getMeetingIdsWithTodayDate(this);
-
         for(long i: meetingsIDs){
             Log.d("Matching IDs","Meeting with ID +"+String.valueOf(i) + " takesplace today.");
         }
-
 
 
         if(Str_prefNotif  == "true" && meetingsIDs.size() >0 ){
@@ -141,12 +141,75 @@ public class MainActivity extends AppCompatActivity {
             this.startService(intent);
         }
 
-        sms = sharedPref.getBoolean("activateSMS", true);
-        String Str_sms = String.valueOf(sms);
+        boolean checkedSMS = sharedPref.getBoolean("activateSMS", true);
+        String Str_checkedSMS = String.valueOf(checkedSMS);
+        Log.d("checkedSMS", Str_checkedSMS);
 
-        Log.d("Logged", String.valueOf(sms));
+        String timeSMS = sharedPref.getString("timeSMS","");
+        Log.d("timeSMS", timeSMS);
+        boolean containNum = containsNumbers(timeSMS);
+
+        timeSMS_array = timeSMS.split("[.:\\\\/-]");
+
+        for(String i: timeSMS_array) {
+            Log.d("timeSMS_array","The array contains: " +i);
+        }
+
+        if(!timeSMS.isEmpty() && containNum == true && timeSMS_array.length <= 4){
+            int int_hourSMS = Integer.parseInt(timeSMS_array[0]);
+            int int_minSMS = Integer.parseInt(timeSMS_array[1]);
+
+            if(int_hourSMS <= 24 && int_minSMS <= 59) {
+
+            if(timeSMS_array[0].length() == 2){
+                if(timeSMS_array[0] != "00"){
+                    String checkHour1 = String.valueOf(timeSMS_array[0].charAt(0));
+                    if(checkHour1 == "0") {
+                            hourSMS = String.valueOf(timeSMS_array[0].charAt(1));
+                        }
+                    else {
+                        hourSMS = String.valueOf(timeSMS_array[0]);
+                    }
+                }
+                else {
+                    hourSMS = "00";
+                }
+            }
+            else {
+                hourSMS = String.valueOf(timeSMS_array[0]);
+            }
+            minuteSMS = String.valueOf(timeSMS_array[1]);
+
+                }
+            }
+
+
+        Log.d("timeSMS_hour", "Hour set is: " +hourSMS);
+        Log.d("timeSMS_minute", "Minute set is: " +minuteSMS);
+
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new
+                            String[]{android.Manifest.permission.SEND_SMS},
+                    SEND_SMS_PERMISSION_REQUEST_CODE);
+        }
+
 
     }
+
+
+    public static boolean containsNumbers(String input) {
+        // Define a regular expression pattern to match numbers
+        Pattern pattern = Pattern.compile(".*\\d+.*");
+
+        // Use a Matcher to check if the input String contains numbers
+        Matcher matcher = pattern.matcher(input);
+
+        // Return true if numbers are found, false otherwise
+        return matcher.matches();
+    }
+
 
 
     @Override
