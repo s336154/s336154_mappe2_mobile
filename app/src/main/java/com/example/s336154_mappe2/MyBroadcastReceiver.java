@@ -11,10 +11,10 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
     public MyBroadcastReceiver(){}
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context.getApplicationContext(), "I BroadcastReceiver", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context.getApplicationContext(), "BroadcastReceiver", Toast.LENGTH_SHORT).show();
 
         Intent i = new Intent(context, MyService.class);
-        Log.d("MinBroadcast","I min boradcast");
+        Log.d("MyBroadcast","In my boradcast");
         context.startService(i);
     }
 }

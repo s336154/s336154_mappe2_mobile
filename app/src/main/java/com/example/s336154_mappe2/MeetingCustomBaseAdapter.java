@@ -30,13 +30,29 @@ public class MeetingCustomBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    // Add a method to get an item at a specific position
+    public Meeting getItem(int position) {
+        if (position >= 0 && position < meetings.size()) {
+            return meetings.get(position);
+        }
+        return null; // Handle out-of-bounds positions
     }
 
     @Override
     public long getItemId(int position) {
         return 0;
+    }
+
+    public void add(Meeting meeting) {
+        meetings.clear();
+        meetings.add(meeting);
+        notifyDataSetChanged();
+    }
+
+    public void remove(Meeting meeting) {
+        meetings.clear();
+        meetings.remove(meeting);
+        notifyDataSetChanged();
     }
 
     @Override

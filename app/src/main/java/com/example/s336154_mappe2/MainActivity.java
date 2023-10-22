@@ -38,23 +38,18 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
     private MeetingAdapter meetingAdapter;
     private ContactAdapter contactAdapter;
     private List<Meeting> meetingsList;
-    private ArrayAdapter<Meeting> meetingArrayAdapter;
 
     ArrayList<Long> contactIDs;
-
     private boolean sms;
-
     private static final int SEND_SMS_PERMISSION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         meetingAdapter = new MeetingAdapter(this);
         meetingAdapter.open();
@@ -71,29 +66,9 @@ public class MainActivity extends AppCompatActivity {
         meetingListView.setAdapter(meetingArrayAdapter);
         meetingArrayAdapter.notifyDataSetChanged();
 
-
-    /*
-        // Insert a new contact
-        Contact contact = new Contact("Arald", "123-456-7890");
-        long contactId = contactAdapter.insertContact(contact);
-
-
-        // Insert a meeting associated with the contact
-        Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A","Meeting with Arald", contactId);
-        meetingAdapter.insertMeeting(meeting);
-
-        Cursor contactCursor = contactAdapter.getAllContacts();
-
-     */
-
-
-
-
         // Retrieve all contacts and meetings
 
         Cursor meetingCursor = meetingAdapter.getAllMeetings();
-
-
 
         // Handle the retrieved data as needed
 
@@ -107,10 +82,6 @@ public class MainActivity extends AppCompatActivity {
         Button editMeetingsButt =findViewById(R.id.editMeetingButton);
         Intent editMeetingIntent =new Intent(this, EditMeetingActivity.class);
 
-
-
-
-
         meetingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,12 +91,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Selected contact ID", "Name selected is: " + String.valueOf(selectedItem.getPlace()) +
                         "  ID is: " + String.valueOf(selectedItem.getId()));
 
-
                 String dateDeleted = selectedItem.getDate();
                 long meetingId = selectedItem.getId();
 
                 Log.d("meeting Id", "ID is: " + String.valueOf(meetingId));
-
 
                 editMeetingsButt.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -142,12 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
-
-
-
             }
         });
+
 
         Button preferanseButt = findViewById(R.id.preferenseButton);
         Intent prefIntent =new Intent(this,SettingsActivity.class);
@@ -161,18 +127,28 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
         String selectedTime = sharedPref.getString("user_selected_time", "20:25"); // Default time if not set
 
+        boolean prefNotif = sharedPref.getBoolean("activateNotification",true);
+        String Str_prefNotif = String.valueOf(prefNotif);
+
+        Log.d("prefNotification",Str_prefNotif);
+
+        if(Str_prefNotif  == "true"){
+            Intent intent = new Intent(this,MyPeriodicService.class);
+            this.startService(intent);
+        }
+
         sms = sharedPref.getBoolean("activateSMS", true);
         String Str_sms = String.valueOf(sms);
 
         Log.d("Logged", String.valueOf(sms));
 
+        /*
         LocalTime currentTime = LocalTime.now();
         String timeNow = currentTime.toString();
 
         if (Str_sms == "true" && selectedTime == timeNow){
                 sendMessage();
         }
-
 
 
         if (ContextCompat.checkSelfPermission(this,
@@ -183,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     SEND_SMS_PERMISSION_REQUEST_CODE);
         }
 
-
+         */
     }
 
 
@@ -203,9 +179,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
     }
-
 
     private void sendMessage() {
 
@@ -230,9 +204,8 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Skriv inn telefon og melding.", Toast.LENGTH_SHORT).show();
                 }
-            }} }
-
-
+            }}
+    }
 
     @Override
     protected void onResume() {
@@ -246,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
         meetingAdapter.close();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -254,3 +226,17 @@ public class MainActivity extends AppCompatActivity {
         meetingAdapter.close();
     }
 }
+
+    /*
+        // Insert a new contact
+        Contact contact = new Contact("Arald", "123-456-7890");
+        long contactId = contactAdapter.insertContact(contact);
+
+
+        // Insert a meeting associated with the contact
+        Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A","Meeting with Arald", contactId);
+        meetingAdapter.insertMeeting(meeting);
+
+        Cursor contactCursor = contactAdapter.getAllContacts();
+
+     */

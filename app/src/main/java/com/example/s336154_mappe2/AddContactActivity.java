@@ -22,11 +22,9 @@ public class AddContactActivity extends AppCompatActivity {
 
 
     private ContactAdapter contactAdapter;
-    private ArrayAdapter<Contact> contactArrayAdapter;
-    private List<Contact> contactsList;
-    private DatabaseHelper dbHelper;
     private EditText editContactName, editContactPhone;
     public long contactId;
+    CustomBaseAdapter contactArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +42,9 @@ public class AddContactActivity extends AppCompatActivity {
         editContactName = findViewById(R.id.editContactName);
         editContactPhone = findViewById(R.id.editContactPhone);
 
+        contactArrayAdapter = new CustomBaseAdapter(this, contactAdapter.getContactsList());
 
-        contactsList = (List<Contact>) contactAdapter.getContactsList();
-
-        contactArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, contactsList);
-
-
+        Intent toContactsIntent =new Intent(this,ContactActivity.class);
 
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,17 +57,23 @@ public class AddContactActivity extends AppCompatActivity {
                     // Create a new Contact object and save it to the database
 
                     Contact contact = new Contact(name, phone);
-                    contactId = contactAdapter.insertContact(contact);
-                    contactArrayAdapter.add(contact);
+                    contactAdapter.insertContact(contact);
+
+                    contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
+                            contactAdapter.getContactsList());
+
                     // Handle item click here
                     Toast.makeText(AddContactActivity.this, name + " er lagret i kontakt liste",
                             Toast.LENGTH_LONG).show();
 
                     editContactName.setText("");
                     editContactPhone.setText("");
+                    startActivity(toContactsIntent);
                 }
-                Toast.makeText(AddContactActivity.this, " Du må fylle ut Navn og Telefon nummer.",
-                        Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(AddContactActivity.this, " Du må fylle ut Navn og Telefon nummer.",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -90,13 +90,14 @@ public class AddContactActivity extends AppCompatActivity {
                     // Create a new Contact object and save it to the database
                     Contact contact = new Contact(name, phone);
                     contactId = contactAdapter.insertContact(contact);
-                    contactArrayAdapter.add(contact);
+
+                    contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
+                            contactAdapter.getContactsList());
+
                     // Handle item click here
                     Toast.makeText(AddContactActivity.this, name + " er lagret i kontakt liste",
                             Toast.LENGTH_LONG).show();
 
-                    editContactName.setText("");
-                    editContactPhone.setText("");
 
                     addContactMeetingIntent.putExtra("contactId", contactId);
                     Log.d("Saved contact ID", String.valueOf(contactId));

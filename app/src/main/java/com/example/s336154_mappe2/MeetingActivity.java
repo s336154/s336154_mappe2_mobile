@@ -29,10 +29,9 @@ public class MeetingActivity extends AppCompatActivity {
     private DatePicker datePicker;
     private TimePicker timePicker;
     private MeetingAdapter meetingAdapter;
-    private EditText editMeetingTime, editMeetingDate, editMeetingPlace, editMeetingComment;
+    private EditText  editMeetingPlace, editMeetingComment;
+    private MeetingCustomBaseAdapter meetingArrayAdapter;
 
-    private ArrayAdapter<Meeting> meetingArrayAdapter;
-    private List<Meeting> meetingsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +62,30 @@ public class MeetingActivity extends AppCompatActivity {
         Log.d("contactID","contactID is " +String.valueOf(contactID));
 
 
-        meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
-        meetingArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, meetingsList);
+        MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(getApplicationContext(),
+                meetingAdapter.getMeetingsList());
+
+
+        Button toContactsButt = findViewById(R.id.toContactsButton);
+        Intent toContactsIntent =new Intent(this,ContactActivity.class);
+        toContactsButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(toContactsIntent);
+            }
+        });
+
+
+        Button toMainButt = findViewById(R.id.toMainButton);
+        Intent toMainIntent =new Intent(this,MainActivity.class);
+        toMainButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(toMainIntent);
+            }
+        });
+
+
 
 
 
@@ -108,9 +128,9 @@ public class MeetingActivity extends AppCompatActivity {
 
                     Meeting meeting = new Meeting(time, date, place,comment, contactID);
 
-
-                    long contactId = meetingAdapter.insertMeeting(meeting);
-                    meetingArrayAdapter.add(meeting);
+                    meetingAdapter.insertMeeting(meeting);
+                    MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(getApplicationContext(),
+                            meetingAdapter.getMeetingsList());
 
                     // Handle item click here
                     Toast.makeText(MeetingActivity.this,  "Avtalen er lagret.",

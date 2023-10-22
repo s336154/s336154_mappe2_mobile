@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomBaseAdapter extends BaseAdapter {
@@ -24,15 +25,30 @@ public class CustomBaseAdapter extends BaseAdapter {
         inflater= LayoutInflater.from(context);
     }
 
+    public Contact getItem(int position) {
+        if (position >= 0 && position < contacts.size()) {
+            return contacts.get(position);
+        }
+        return null; // Handle out-of-bounds positions
+    }
+
+    public void add(Contact contact) {
+        contacts.clear();
+        contacts.add(contact);
+        notifyDataSetChanged();
+    }
+
+    public void remove(Contact contact) {
+        contacts.clear();
+        contacts.remove(contact);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return contacts.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
 
     @Override
     public long getItemId(int position) {

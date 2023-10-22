@@ -15,7 +15,6 @@
             android:textSize="38dp"
             android:text="AVTALER"
             android:textFontWeight="@integer/material_motion_duration_long_2"
-            android:layout_marginBottom="13dp"
             android:layout_marginTop="20dp"
             android:textStyle="bold"
             android:textColor="#A9A9A9"
@@ -30,7 +29,7 @@
             android:orientation="horizontal"
             android:rowCount="1"
             android:layout_gravity="center"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="25dp"
             android:layout_marginTop="20dp"
             >
 
@@ -62,20 +61,19 @@
             android:text="Preferanse"
             />
 
-
         </GridLayout>
 
 
 
-        <ListView android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:divider="@color/black"
-            android:dividerHeight="3dp"
-            android:listSelector="@color/cardview_shadow_start_color"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true"
-            />
+    <ListView android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:divider="@color/black"
+        android:dividerHeight="3dp"
+        android:listSelector="@color/cardview_shadow_start_color"
+        />
+
+
 
     </LinearLayout>

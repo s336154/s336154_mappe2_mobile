@@ -17,8 +17,7 @@ import java.util.List;
 
 public class EditContactActivity extends AppCompatActivity {
     private ContactAdapter contactAdapter;
-    private ArrayAdapter<Contact> contactArrayAdapter;
-    private List<Contact> contactsList;
+    private CustomBaseAdapter contactArrayAdapter;
     private DatabaseHelper dbHelper;
     private EditText editContactName, editContactPhone;
     public long contactId;
@@ -63,14 +62,14 @@ public class EditContactActivity extends AppCompatActivity {
       //  editContactName.setText();
 
 
-        contactsList = (List<Contact>) contactAdapter.getContactsList();
-
-        contactArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, contactsList);
+      //  contactArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactsList);
+        CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
+                contactAdapter.getContactsList());
 
         String finalContactName = contactName;
         String finalContactPhone = contactPhone;
 
+        Intent toContactsIntent =new Intent(this,ContactActivity.class);
 
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +83,16 @@ public class EditContactActivity extends AppCompatActivity {
 
                     Contact contact = new Contact(name, phone);
                     contactAdapter.updateContact(contactID,contact);
-                    contactArrayAdapter.add(contact);
+
+                    CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
+                            contactAdapter.getContactsList());
 
                     if(name != finalContactName || phone != finalContactPhone) {
                         Toast.makeText(EditContactActivity.this, "Endring ble lagret.",
                                 Toast.LENGTH_LONG).show();
                     }
+
+                    startActivity(toContactsIntent);
 
                 }
                 else {
@@ -117,9 +120,10 @@ public class EditContactActivity extends AppCompatActivity {
 
                     Contact contact = new Contact(name, phone);
                     contactAdapter.updateContact(contactID, contact);
-                    contactArrayAdapter.add(contact);
 
-                    contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
+                    CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
+                            contactAdapter.getContactsList());
+
                     contactArrayAdapter.notifyDataSetChanged();
 
 
@@ -154,8 +158,8 @@ public class EditContactActivity extends AppCompatActivity {
                         .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Perform the contact deletion here
-                                contactArrayAdapter.remove(contactArrayAdapter.getItem(position));
-                                contactArrayAdapter.notifyDataSetChanged();
+                                CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
+                                        contactAdapter.getContactsList());
 
                                 contactAdapter.deleteContact(contactID);
                                 Toast.makeText(EditContactActivity.this, nameDeleted + " er slettet fra kontakt liste.",

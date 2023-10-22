@@ -151,8 +151,39 @@ public class MeetingAdapter {
         return contactIds;
     }
 
+    public List<Long> getMeetingIdsWithTodayDate(Context context) {
+
+        List<Long> matchingIds = new ArrayList<>();
+
+        // Get today's date in the format matching your database (e.g., "yyyy-MM-dd")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String todayDate = dateFormat.format(new Date());
+
+        // Query the database to check for matching dates
+        String query = "SELECT " +DatabaseHelper.MEETINGS_COLUMN_ID+ " FROM "
+                + DatabaseHelper.MEETINGS_TABLE_NAME + " WHERE "
+                +DatabaseHelper.MEETINGS_COLUMN_DATE+ " = ?";
+
+        Cursor cursor = database.rawQuery(query, new String[]{todayDate});
+
+        if (cursor.moveToFirst()) {
+            do {
+                // Matching date(s) found; get the associated ID(s)
+                long meetingId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_ID));
+                matchingIds.add(meetingId);
+            } while (cursor.moveToNext());
+        }
+
+        // Close the cursor and the database when done
+        cursor.close();
+        return matchingIds;
+    }
+
 
 }
+
+
+
 
 /*
 

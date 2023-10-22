@@ -27,17 +27,13 @@ import java.util.Date;
 
 public class EditMeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
+    private EditText editMeetingPlace, editMeetingComment;
 
-    private EditText editMeetingTime, editMeetingDate, editMeetingPlace, editMeetingComment;
-
-    private ArrayAdapter<Meeting> meetingArrayAdapter;
-    private List<Meeting> meetingsList;
     public long contactId;
-
     private DatePicker datePicker;
     private TimePicker timePicker;
     private String[] dateArray, timeArray;
-    private List<Contact> contactsList; // Initialize this list with your contacts
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +62,11 @@ public class EditMeetingActivity extends AppCompatActivity {
         Button meetingToContactButton = findViewById(R.id.meetingToContact);
 
 
-        meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
-        meetingArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, meetingsList);
+   //     meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
+  //      meetingArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, meetingsList);
+        MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(getApplicationContext(),
+                meetingAdapter.getMeetingsList());
+
 
        // long contactID = getIntent().getExtras().getLong("contactID", 0);
         long meetingID = getIntent().getExtras().getLong("meetingID", 0);
@@ -180,10 +178,9 @@ public class EditMeetingActivity extends AppCompatActivity {
                     Meeting meeting = new Meeting(time, date, place,comment, contactID);
 
                     meetingAdapter.updateMeeting(meetingID,meeting);
-                    meetingArrayAdapter.add(meeting);
 
-                    meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
-                    meetingArrayAdapter.notifyDataSetChanged();
+                    MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(getApplicationContext(),
+                            meetingAdapter.getMeetingsList());
 
                     if(time != meetingTime && place != meetingPlace && date != meetingDate &&
                             comment != meetingComment) {
@@ -241,7 +238,8 @@ public class EditMeetingActivity extends AppCompatActivity {
                         .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Perform the contact deletion here
-                                meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
+                 //               meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
+
                                 meetingArrayAdapter.notifyDataSetChanged();
 
                                 meetingAdapter.deleteMeeting(meetingID);
