@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    tools:context=".CustomBaseAdapter">
+    tools:context=".CustomBaseAdapter"
+    >
 
     <ImageView
         android:id="@+id/iconImageView"
@@ -29,6 +30,7 @@
         android:fontFamily="casual"
         android:layout_marginRight="12dp"
         android:textStyle="bold"
+        android:textAllCaps="true"
         />
 
     <TextView

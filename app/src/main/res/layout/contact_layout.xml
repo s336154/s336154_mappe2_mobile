@@ -7,7 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ContactActivity">
+    tools:context=".ContactActivity"
+    >
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,6 +19,8 @@
         android:textFontWeight="@integer/material_motion_duration_long_2"
         android:layout_marginBottom="13dp"
         android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="#A9A9A9"
         />
 
     <GridLayout
@@ -39,6 +42,8 @@
             android:layout_column="1"
             android:layout_row="0"
             android:text="Avtale"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             />
         <!--    app:icon="@drawable/img_2" -->
 
@@ -49,7 +54,10 @@
         android:layout_height="wrap_content"
         android:text="Ny kontakt"
         android:layout_column="0"
-        android:layout_row="0" />
+        android:layout_row="0"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        />
 
         <Button
             android:id="@+id/editContact"
@@ -57,7 +65,10 @@
             android:layout_height="wrap_content"
             android:text="Rediger"
             android:layout_column="2"
-            android:layout_row="0" />
+            android:layout_row="0"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            />
 
 
 

@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    tools:context=".MeetingCustomBaseAdapter">
+    tools:context=".MeetingCustomBaseAdapter"
+    >
 
     <ImageView
         android:id="@+id/iconImageView"
@@ -52,6 +53,7 @@
         android:text="Item Name"
         android:fontFamily="casual"
         android:layout_marginRight="12dp"
+        android:textAllCaps="true"
         />
 
     <TextView
