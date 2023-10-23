@@ -49,7 +49,7 @@ public class MyService extends Service {
         contactAdapter = new ContactAdapter(this);
         contactAdapter.open();
         
-        Toast.makeText(getApplicationContext(), "In MyService", Toast.LENGTH_SHORT).show();
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
@@ -90,7 +90,6 @@ public class MyService extends Service {
         long idSMS = 0;
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String phoneNumber = null;
 
         if (meetingsIDs.size() > 0) {
             for(long id : meetingsIDs) {
@@ -113,7 +112,8 @@ public class MyService extends Service {
                 if(phoneSMS != null && nameSMS != null)   {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage(phoneSMS, null, messageSMS, null, null);
-                    Toast.makeText(this, "SMS sendt til " +nameSMS, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Avtale påminelse er sendt til " +nameSMS, Toast.LENGTH_SHORT).show();
+                    Log.d("contactSMS", "Message sent to " + nameSMS);
                 }
             }
         }

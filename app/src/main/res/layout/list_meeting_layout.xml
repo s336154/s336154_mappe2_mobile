@@ -12,7 +12,7 @@
         android:id="@+id/iconImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/img_4"
+        android:src="@drawable/img_2"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -20,6 +20,7 @@
         android:layout_gravity="center"
         />
 
+    
     <TextView
         android:id="@+id/timeView"
         android:layout_width="wrap_content"

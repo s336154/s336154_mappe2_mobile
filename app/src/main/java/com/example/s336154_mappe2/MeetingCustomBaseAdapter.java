@@ -71,7 +71,7 @@ public class MeetingCustomBaseAdapter extends BaseAdapter {
 
 
         // Set the icon image (you can load it from a resource or URL)
-        iconImageView.setImageResource(R.drawable.img_4);
+        iconImageView.setImageResource(R.drawable.img_2);
 
         Meeting meeting = meetings.get(position);
 

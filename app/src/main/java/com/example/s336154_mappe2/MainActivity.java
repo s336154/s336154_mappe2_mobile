@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
     boolean grantedSMS;
 
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         SharedPreferences sharedPref = getDefaultSharedPreferences(this);
