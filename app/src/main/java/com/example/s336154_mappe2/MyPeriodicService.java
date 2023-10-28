@@ -22,8 +22,6 @@ import java.util.regex.Pattern;
 
 public class MyPeriodicService extends Service {
 
-    private MeetingAdapter meetingAdapter;
-    private ContactAdapter contactAdapter;
     private String hourSMS, minuteSMS;
     @Nullable
     @Override
@@ -88,7 +86,7 @@ public class MyPeriodicService extends Service {
            cal.set(Calendar.MINUTE, minSMS_int);
            cal.set(Calendar.SECOND, 0);
            if (cal.getTimeInMillis() <= System.currentTimeMillis()) {
-               cal.add(Calendar.DAY_OF_YEAR, 1); // Move to tomorrow
+               cal.add(Calendar.DAY_OF_YEAR, 1);
            }
            alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
 
@@ -98,13 +96,9 @@ public class MyPeriodicService extends Service {
     }
 
     public static boolean containsNumbers(String input) {
-        // Define a regular expression pattern to match numbers
+
         Pattern pattern = Pattern.compile(".*\\d+.*");
-
-        // Use a Matcher to check if the input String contains numbers
         Matcher matcher = pattern.matcher(input);
-
-        // Return true if numbers are found, false otherwise
         return matcher.matches();
     }
 }

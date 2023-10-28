@@ -112,8 +112,8 @@ public class MyService extends Service {
                 if(phoneSMS != null && nameSMS != null)   {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage(phoneSMS, null, messageSMS, null, null);
-                    Toast.makeText(this, "Avtale påminelse er sendt til " +nameSMS, Toast.LENGTH_SHORT).show();
                     Log.d("contactSMS", "Message sent to " + nameSMS);
+                    Toast.makeText(this, "Avtale påminelse er sendt til " +nameSMS, Toast.LENGTH_SHORT).show();
                 }
             }
         }

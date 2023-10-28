@@ -5,31 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.View;;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import java.util.List;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import java.util.Calendar;
-import java.util.Date;
 
 public class EditMeetingActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
+    private ContactAdapter contactAdapter;
     private EditText editMeetingPlace, editMeetingComment;
 
-    public long contactId;
     private DatePicker datePicker;
     private TimePicker timePicker;
     private String[] dateArray, timeArray;
@@ -44,10 +33,9 @@ public class EditMeetingActivity extends AppCompatActivity {
         meetingAdapter = new MeetingAdapter(this);
         meetingAdapter.open();
 
+        contactAdapter = new ContactAdapter(this);
+        contactAdapter.open();
 
-
-        //    editMeetingTime = findViewById(R.id.editTime);
-        //    editMeetingDate = findViewById(R.id.editDate);
         editMeetingPlace = findViewById(R.id.editPlace);
         editMeetingComment = findViewById(R.id.editComment);
 
@@ -56,14 +44,10 @@ public class EditMeetingActivity extends AppCompatActivity {
 
         timePicker.setIs24HourView(true);
 
-        // Implement onClick listeners for save and delete buttons
         Button saveMeetingButton = findViewById(R.id.saveMeetingButt);
         Button deleteMeetingButton = findViewById(R.id.deleteMeetingButt);
         Button meetingToContactButton = findViewById(R.id.meetingToContact);
 
-
-   //     meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
-  //      meetingArrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, meetingsList);
         MeetingCustomBaseAdapter meetingArrayAdapter = new MeetingCustomBaseAdapter(getApplicationContext(),
                 meetingAdapter.getMeetingsList());
 
@@ -83,9 +67,6 @@ public class EditMeetingActivity extends AppCompatActivity {
 
         editMeetingComment.setText(meetingComment);
         editMeetingPlace.setText(meetingPlace);
-
-        //    editMeetingDate.setText(meetingDate);
-        //    editMeetingTime.setText(meetingTime);
 
 
         dateArray = meetingDate.split("-");
@@ -130,50 +111,36 @@ public class EditMeetingActivity extends AppCompatActivity {
 
 
         datePicker.init(dateYear, dateMonth, dateDay, null);
-        timePicker.setHour(timeHour); // 24-hour format: 15 for 3:00 PM
+        timePicker.setHour(timeHour);
         timePicker.setMinute(timeMinute);
-
-
-
-
-        // Constructor and other methods here
-
-        // Implement the getContactName method
 
 
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
 
             private String  pad(int value) {
-                // Helper method to ensure leading zero for single-digit values
+
                 return (value < 10) ? "0" + value : String.valueOf(value);
             }
             @Override
             public void onClick(View v) {
 
-                // Read the user input from editContactName and editContactPhone
-                //     String time = editMeetingTime.getText().toString();
-                //     String date = editMeetingDate.getText().toString();
                 String place = editMeetingPlace.getText().toString();
                 String comment = editMeetingComment.getText().toString();
 
 
                 int year = datePicker.getYear();
-                int month = datePicker.getMonth() + 1; // Month is zero-based, so add 1
+                int month = datePicker.getMonth() + 1;
                 int day = datePicker.getDayOfMonth();
                 int hour = timePicker.getHour();
                 int minute = timePicker.getMinute();
 
-                // Convert the values to String representations
                 String date = year + "-" + pad(month) + "-" + pad(day);
                 String time = pad(hour) + ":" + pad(minute);
 
-                // You can now use dateString and timeString as needed, e.g., display them or save to a database
                 String dateTimeString = date + " " + time;
 
 
                 if (!time.isEmpty() && !date.isEmpty() && !place.isEmpty()) {
-                    // Create a new Contact object and save it to the database
-
 
                     Meeting meeting = new Meeting(time, date, place,comment, contactID);
 
@@ -209,12 +176,20 @@ public class EditMeetingActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Log.d("EditContactID", "Contact ID is: " +String.valueOf(contactID));
-             //   String name = contactAdapter.getContactName(contactID);
-             //   String phone = contactAdapter.getContactPhone(contactID);
 
-                toContactIntent.putExtra("contactId", contactID);
+                boolean finnes = contactAdapter.idExist(contactID);
+                Log.d("EditContactID", "Contact availbility is: " +String.valueOf(finnes));
+                if(finnes) {
 
-                startActivity(toContactIntent);
+                    toContactIntent.putExtra("contactId", contactID);
+
+                    startActivity(toContactIntent);
+                }
+                else {
+                    Toast.makeText(EditMeetingActivity.this, "Kontakten er ikke i konatktliste.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         });
 
@@ -224,21 +199,11 @@ public class EditMeetingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            /*
-                String dateDeleted = editMeetingDate.getText().toString();
-                String timeDeleted = editMeetingTime.getText().toString();
-                String placeDeleted = editMeetingPlace.getText().toString();
-                String commentDeleted = editMeetingComment.getText().toString();
-
-             */
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(deleteMeetingButton.getContext());
                 builder.setMessage("Vil du slette avtalen ?")
                         .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // Perform the contact deletion here
-                 //               meetingArrayAdapter.remove(meetingArrayAdapter.getItem(position));
 
                                 meetingArrayAdapter.notifyDataSetChanged();
 

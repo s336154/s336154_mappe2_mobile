@@ -14,7 +14,6 @@ public class Contact {
         this.phone = phone;
     }
 
-    // Getters and Setters
     public long getId() {
         return id;
     }

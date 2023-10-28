@@ -14,7 +14,6 @@ import java.util.List;
 public class MeetingCustomBaseAdapter extends BaseAdapter {
     private final Context context;
     private final List<Meeting> meetings;
-    private MeetingAdapter meetingAdapter;
     LayoutInflater inflater;
 
     public MeetingCustomBaseAdapter(Context context, List<Meeting> meetings) {
@@ -60,8 +59,6 @@ public class MeetingCustomBaseAdapter extends BaseAdapter {
 
         convertView = inflater.inflate(R.layout.list_meeting_layout, null);
 
-        //   inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //  View rowView = inflater.inflate(R.layout.list_contact_layout, parent, false);
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.iconImageView);
         TextView timeView = (TextView) convertView.findViewById(R.id.timeView);
@@ -70,7 +67,6 @@ public class MeetingCustomBaseAdapter extends BaseAdapter {
         TextView commentView = (TextView) convertView.findViewById(R.id.commentView);
 
 
-        // Set the icon image (you can load it from a resource or URL)
         iconImageView.setImageResource(R.drawable.img_2);
 
         Meeting meeting = meetings.get(position);
@@ -80,7 +76,7 @@ public class MeetingCustomBaseAdapter extends BaseAdapter {
         Log.d("MeetingCustomAdapter", "Place: " + meeting.getPlace());
         Log.d("MeetingCustomAdapter", "Comment: " + meeting.getComment());
 
-        // Set the text for the item
+
 
         timeView.setText(meeting.getTime());
         dateView.setText(meeting.getDate());

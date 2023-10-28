@@ -1,8 +1,5 @@
 package com.example.s336154_mappe2;
 
-import static android.app.DownloadManager.COLUMN_ID;
-
-import static com.example.s336154_mappe2.DatabaseHelper.CONTACTS_TABLE_NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
 
 public class MeetingAdapter {
     private SQLiteDatabase database;
@@ -87,9 +84,6 @@ public class MeetingAdapter {
     }
 
 
-
-
-
     public Cursor getAllMeetings() {
         return database.query(DatabaseHelper.MEETINGS_TABLE_NAME,
                 null, null, null, null, null, null);
@@ -119,7 +113,7 @@ public class MeetingAdapter {
         Cursor cursor = database.rawQuery(query, selectionArgs);
 
         if (cursor.moveToFirst()) {
-            contactId = cursor.getLong(0);  // Assumes contact_id is in the first column
+            contactId = cursor.getLong(0);
         }
 
         cursor.close();
@@ -131,11 +125,9 @@ public class MeetingAdapter {
 
         List<Long> matchingIds = new ArrayList<>();
 
-        // Get today's date in the format matching your database (e.g., "yyyy-MM-dd")
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String todayDate = dateFormat.format(new Date());
 
-        // Query the database to check for matching dates
         String query = "SELECT " +DatabaseHelper.MEETINGS_COLUMN_ID+ " FROM "
                 + DatabaseHelper.MEETINGS_TABLE_NAME + " WHERE "
                 +DatabaseHelper.MEETINGS_COLUMN_DATE+ " = ?";
@@ -144,13 +136,11 @@ public class MeetingAdapter {
 
         if (cursor.moveToFirst()) {
             do {
-                // Matching date(s) found; get the associated ID(s)
                 long meetingId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_ID));
                 matchingIds.add(meetingId);
             } while (cursor.moveToNext());
         }
 
-        // Close the cursor and the database when done
         cursor.close();
         return matchingIds;
     }
@@ -158,49 +148,3 @@ public class MeetingAdapter {
 
 }
 
-
-
-
-/*
-
-    public boolean deleteMeeting(long id) {
-        return database.delete(DatabaseHelper.MEETINGS_TABLE_NAME,
-                DatabaseHelper.MEETINGS_COLUMN_ID + "=" + id, null) > 0;
-    }
-
-
-    public long insertMeeting(Meeting meeting) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.MEETINGS_COLUMN_TIME, meeting.getTime());
-        values.put(DatabaseHelper.MEETINGS_COLUMN_DATE, meeting.getDate());
-        values.put(DatabaseHelper.MEETINGS_COLUMN_PLACE, meeting.getPlace());
-        values.put(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID, meeting.getContactId());
-        return database.insert(DatabaseHelper.MEETINGS_TABLE_NAME, null, values);
-    }
- */
-
-/*
-    public ArrayList<Long> checkMeetingDate() {
-        // Get today's date in the "yyyy-MM-dd" format
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String todayDate = sdf.format(new Date());
-
-// Query the database to find matches
-        String query = "SELECT * FROM " + DatabaseHelper.MEETINGS_TABLE_NAME + " WHERE "
-                + DatabaseHelper.MEETINGS_COLUMN_DATE + " = ?";
-        Cursor cursor = database.rawQuery(query, new String[]{todayDate});
-
-        ArrayList<Long> contactIds = new ArrayList<>();
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    long contactId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.MEETINGS_COLUMN_CONTACT_ID));
-                    contactIds.add(contactId);
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-        return contactIds;
-    }
- */

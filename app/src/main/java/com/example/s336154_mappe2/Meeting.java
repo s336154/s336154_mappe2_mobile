@@ -23,14 +23,6 @@ public class Meeting {
 
 
 
-/*    public Meeting(String time, String date, String place, long contactId) {
-        this.time = time;
-        this.date = date;
-        this.place = place;
-        this.contactId = contactId;
-    }
-
- */
 
     // Getters and Setters
     public long getId() {

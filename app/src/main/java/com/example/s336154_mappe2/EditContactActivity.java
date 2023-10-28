@@ -6,21 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
 
 public class EditContactActivity extends AppCompatActivity {
     private ContactAdapter contactAdapter;
-    private CustomBaseAdapter contactArrayAdapter;
-    private DatabaseHelper dbHelper;
     private EditText editContactName, editContactPhone;
-    public long contactId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +52,6 @@ public class EditContactActivity extends AppCompatActivity {
         editContactName.setText(contactName);
         editContactPhone.setText(contactPhone);
 
-
-
-      //  editContactName.setText();
-
-
-      //  contactArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactsList);
         CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
                 contactAdapter.getContactsList());
 
@@ -74,12 +63,10 @@ public class EditContactActivity extends AppCompatActivity {
         saveContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Read the user input from editContactName and editContactPhone
                 String name = editContactName.getText().toString();
                 String phone = editContactPhone.getText().toString();
 
                 if (!name.isEmpty() && !phone.isEmpty()) {
-                    // Create a new Contact object and save it to the database
 
                     Contact contact = new Contact(name, phone);
                     contactAdapter.updateContact(contactID,contact);
@@ -157,7 +144,7 @@ public class EditContactActivity extends AppCompatActivity {
                 builder.setMessage("Vil du slette " +nameDeleted+ " ?")
                         .setPositiveButton("Slett", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // Perform the contact deletion here
+
                                 CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(getApplicationContext(),
                                         contactAdapter.getContactsList());
 

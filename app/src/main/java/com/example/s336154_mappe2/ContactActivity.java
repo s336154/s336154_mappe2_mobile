@@ -1,35 +1,19 @@
 package com.example.s336154_mappe2;
 
-import static com.example.s336154_mappe2.DatabaseHelper.CONTACTS_COLUMN_NAME;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
 public class ContactActivity extends AppCompatActivity {
 
     private ContactAdapter contactAdapter;
     private List<Contact> contactsList;
-   // private ArrayAdapter<Contact> contactArrayAdapter;
-  //  private CustomAdapter adapter;
 
 
     @Override
@@ -42,10 +26,7 @@ public class ContactActivity extends AppCompatActivity {
 
         EditText et = (EditText) findViewById(R.id.text);
 
-
-        // Implement onClick listeners for save and delete buttons
         Button saveContactButton = findViewById(R.id.addContactButton);
-     //   Button deleteContactButton = findViewById(R.id.deleteContactButton);
         Button editContact = findViewById(R.id.editContact);
         Button toMeetingActivity = findViewById(R.id.toMeetingButton);
 
@@ -56,18 +37,9 @@ public class ContactActivity extends AppCompatActivity {
 
 
         CustomBaseAdapter contactArrayAdapter = new CustomBaseAdapter(this, contactsList);
-
-        contactListView.setAdapter(contactArrayAdapter);
-
-        contactArrayAdapter.notifyDataSetChanged();
-
-
-/*
-        contactArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactsList);
         contactListView.setAdapter(contactArrayAdapter);
         contactArrayAdapter.notifyDataSetChanged();
 
-*/
 
         Intent addContactsIntent = new Intent(this, AddContactActivity.class);
         Intent toMeetingActivityIntent = new Intent(this, MeetingActivity.class);
@@ -80,8 +52,6 @@ public class ContactActivity extends AppCompatActivity {
             }
         });
 
-
-        //    Intent deleteContactsIntent =new Intent(this, DeleteContactActivity.class);
 
 
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,29 +117,6 @@ public class ContactActivity extends AppCompatActivity {
 
  }
 
-
-
-
-                /*    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedContactName = String.valueOf(contactArrayAdapter.getItem(position));
-                        long contactId = dbHelper.getContactIdByName(selectedContactName);
-
-                        if (contactId != -1) {
-                            boolean contactDeleted = dbHelper.deleteContactById(contactId);
-
-                            if (contactDeleted) {
-                                // Contact was successfully deleted
-                                contactAdapter.deleteContactById(contactId);
-                            } else {
-                                // Contact deletion failed
-                            }
-                        } else {
-                            // Contact not found
-                        }
-                        dbHelper.close();
-                    }
-
-                 */
 
 
 

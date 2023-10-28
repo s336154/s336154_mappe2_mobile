@@ -1,43 +1,24 @@
 package com.example.s336154_mappe2;
 
-import static android.app.ProgressDialog.show;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
-
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.os.LocaleListCompat;
-import androidx.preference.PreferenceManager;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity {
     private MeetingAdapter meetingAdapter;
@@ -182,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -203,36 +183,3 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-    /*
-        // Insert a new contact
-        Contact contact = new Contact("Arald", "123-456-7890");
-        long contactId = contactAdapter.insertContact(contact);
-
-
-        // Insert a meeting associated with the contact
-        Meeting meeting = new Meeting("10:00 AM", "2023-10-15", "Meeting Room A","Meeting with Arald", contactId);
-        meetingAdapter.insertMeeting(meeting);
-
-        Cursor contactCursor = contactAdapter.getAllContacts();
-
-     */
-
-
-        /*
-        LocalTime currentTime = LocalTime.now();
-        String timeNow = currentTime.toString();
-
-        if (Str_sms == "true" && selectedTime == timeNow){
-                sendMessage();
-        }
-
-
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.SEND_SMS},
-                    SEND_SMS_PERMISSION_REQUEST_CODE);
-        }
-
-         */

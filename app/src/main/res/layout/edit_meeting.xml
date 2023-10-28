@@ -24,34 +24,6 @@
             android:textStyle="bold"
             android:textColor="#A9A9A9"
             />
-        <!--
-            <EditText
-                android:id="@+id/editTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tid" />
-
-            <EditText
-                android:id="@+id/editDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Dato" />
-
-                 <EditText
-                android:id="@+id/editPlace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Sted" />
-
-
-            <EditText
-                android:id="@+id/editComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Kommenter" />
-
-              -->
-
 
         <GridLayout
             android:layout_width="wrap_content"

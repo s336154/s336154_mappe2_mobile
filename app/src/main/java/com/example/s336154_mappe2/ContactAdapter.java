@@ -1,9 +1,5 @@
 package com.example.s336154_mappe2;
 
-import static android.app.DownloadManager.COLUMN_ID;
-
-
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -59,21 +55,6 @@ public class ContactAdapter {
     }
 
 
-    public Contact getContact(long contactId) {
-        Cursor cursor = database.query(DatabaseHelper.CONTACTS_TABLE_NAME, null,
-                DatabaseHelper.CONTACTS_COLUMN_ID + " = ?", new String[]{String.valueOf(contactId)},
-                null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            Contact contact = cursorToContact(cursor);
-            cursor.close();
-            return contact;
-        } else {
-            return null;
-        }
-    }
-
 
     private Contact cursorToContact(Cursor cursor) {
         Contact contact = new Contact();
@@ -92,10 +73,7 @@ public class ContactAdapter {
                 DatabaseHelper.CONTACTS_COLUMN_ID + "=" + id, null) > 0;
     }
 
-  /*  public boolean deleteContact(long id) {
-        return database.delete(DatabaseHelper.CONTACTS_TABLE_NAME,
-                DatabaseHelper.CONTACTS_COLUMN_ID + "=" + id, null) > 0;
-    } */
+
 
     public boolean deleteContact(long contactId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -108,53 +86,6 @@ public class ContactAdapter {
         return deletedRows > 0; // Returns true if at least one row was deleted
     }
 
-
-    /*
-    public String getContactPhone(long contactId) {
-
-        String phone= null;  // Default value in case of an error
-
-        String query = " SELECT " +DatabaseHelper.CONTACTS_COLUMN_PHONE+ " FROM "
-                +DatabaseHelper.CONTACTS_TABLE_NAME+ " WHERE "
-                +DatabaseHelper.CONTACTS_COLUMN_ID+ " = ?";
-
-        String[] selectionArgs = {String.valueOf(contactId)};
-
-        Cursor cursor = database.rawQuery(query, selectionArgs);
-
-        int Index = cursor.getColumnIndex(DatabaseHelper.CONTACTS_COLUMN_PHONE);
-
-        if (cursor.moveToFirst()) {
-            phone = cursor.getString(Index);  // Assumes contact_id is in the first column
-        }
-
-        cursor.close();
-        return phone;
-    }
-
-    public String getContactName(long contactId) {
-
-        String name= null;  // Default value in case of an error
-
-
-        String query = " SELECT " +DatabaseHelper.CONTACTS_COLUMN_NAME+ " FROM "
-                +DatabaseHelper.CONTACTS_TABLE_NAME+ " WHERE "
-                +DatabaseHelper.CONTACTS_COLUMN_ID+ " = ?";
-
-        String[] selectionArgs = {String.valueOf(contactId)};
-
-        Cursor cursor = database.rawQuery(query, selectionArgs);
-
-        int Index = cursor.getColumnIndex(DatabaseHelper.CONTACTS_COLUMN_NAME); // Assuming "name" is a column name
-
-        if (cursor.moveToFirst()) {
-            name = cursor.getString(Index); // Assumes contact_id is in the first column
-        }
-        cursor.close();
-        return name;
-    }
-
-     */
 
 
     public String getContactName(long contactId) {
@@ -183,6 +114,31 @@ public class ContactAdapter {
         return name;
     }
 
+    public boolean idExist(long contactId){
+        String query = "SELECT " + DatabaseHelper.CONTACTS_COLUMN_NAME + " FROM " +
+                DatabaseHelper.CONTACTS_TABLE_NAME + " WHERE " +
+                DatabaseHelper.CONTACTS_COLUMN_ID + " = ?";
+
+        String[] selectionArgs = {String.valueOf(contactId)};
+
+        Cursor cursor = null; // Initialize the cursor to null
+
+        try {
+            cursor = database.rawQuery(query, selectionArgs);
+            if (cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex(DatabaseHelper.CONTACTS_COLUMN_NAME);
+                return true;
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return false;
+
+    }
+
     public String getContactPhone(long contactId) {
         String phone = null;  // Default value in case of an error
 
@@ -192,7 +148,7 @@ public class ContactAdapter {
 
         String[] selectionArgs = {String.valueOf(contactId)};
 
-        Cursor cursor = null; // Initialize the cursor to null
+        Cursor cursor = null;
 
         try {
             cursor = database.rawQuery(query, selectionArgs);
@@ -212,47 +168,6 @@ public class ContactAdapter {
 
 
 
-    public long getContactIdByName(String name) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + COLUMN_ID + " FROM " + dbHelper.CONTACTS_TABLE_NAME +
-                " WHERE " + dbHelper.CONTACTS_COLUMN_NAME + " = ?", new String[]{name});
-
-        if (cursor.moveToFirst()) {
-            return cursor.getLong(0);
-        }
-        return -1; // Contact not found
-    }
-
-    public boolean deleteContactById(long contactId) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int numRowsDeleted = db.delete(dbHelper.CONTACTS_TABLE_NAME, COLUMN_ID + " = ?",
-                new String[]{String.valueOf(contactId)});
-        return numRowsDeleted > 0;
-    }
-
 
 }
 
-/*
-  public Contact getContactById(long id) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Contact resultObject = null;
-
-        Cursor cursor = db.query(DatabaseHelper.CONTACTS_TABLE_NAME, null,
-                DatabaseHelper.CONTACTS_COLUMN_ID + " = ?",
-                new String[]{String.valueOf(id)}, null, null, null);
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                resultObject = new Contact();
-                resultObject.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.CONTACTS_COLUMN_ID)));
-                resultObject.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.CONTACTS_COLUMN_NAME)));
-                resultObject.setPhone(cursor.getString(cursor.getColumnIndex(DatabaseHelper.CONTACTS_COLUMN_PHONE)));
-            }
-            cursor.close();
-        }
-        db.close();
-
-        return resultObject;
-    }
- */

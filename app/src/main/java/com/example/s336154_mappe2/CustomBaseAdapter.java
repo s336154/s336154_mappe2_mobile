@@ -8,14 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomBaseAdapter extends BaseAdapter {
     private final Context context;
     private final List<Contact> contacts;
-    private ContactAdapter contactAdapter;
+
     LayoutInflater inflater;
 
     public CustomBaseAdapter(Context context, List<Contact> contacts) {
@@ -29,7 +27,7 @@ public class CustomBaseAdapter extends BaseAdapter {
         if (position >= 0 && position < contacts.size()) {
             return contacts.get(position);
         }
-        return null; // Handle out-of-bounds positions
+        return null;
     }
 
     public void add(Contact contact) {
@@ -60,14 +58,11 @@ public class CustomBaseAdapter extends BaseAdapter {
 
         convertView = inflater.inflate(R.layout.list_contact_layout, null);
 
-     //   inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //  View rowView = inflater.inflate(R.layout.list_contact_layout, parent, false);
 
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.iconImageView);
         TextView nameView = (TextView) convertView.findViewById(R.id.nameView);
         TextView phoneView = (TextView) convertView.findViewById(R.id.phoneView);
 
-        // Set the icon image (you can load it from a resource or URL)
         iconImageView.setImageResource(R.drawable.img_3);
 
         Contact contact = contacts.get(position);

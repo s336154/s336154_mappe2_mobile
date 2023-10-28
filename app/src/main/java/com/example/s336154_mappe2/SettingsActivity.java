@@ -41,41 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    public void startService (View v){
-        Intent intent = new Intent(this, MyService.class);
-        this.startService(intent);
-
-    }
-
-    public void stoppService (View v)
-    {
-        Intent i = new Intent(this, MyService.class);
-        stopService(i); }
 
 
-    public void sendBroadcast(View v) {
-        Intent intent = new Intent();
-        intent.setAction("com.example.service.MITTSIGNAL");
-        sendBroadcast(intent);
-    }
-
-    public void settPeriodisk(View v) {
-        Intent intent = new Intent(this,MyPeriodicService.class);
-        this.startService(intent);
-    }
-
-
-    public void stoppPeriodisk(View v) {
-        Intent i = new Intent(this, MyService.class);
-        PendingIntent pintent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_MUTABLE);
-        AlarmManager alarm =
-                (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        if (alarm != null) {
-            alarm.cancel(pintent);
-        }
-
-        Log.d("PeriodiskService", "Periodisk stoppet");
-    }
 
     private void createNotificationChannel() {
         CharSequence name = getString(R.string.channel_name);
