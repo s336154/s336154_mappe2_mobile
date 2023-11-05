@@ -114,6 +114,8 @@ public class EditMeetingActivity extends AppCompatActivity {
         timePicker.setHour(timeHour);
         timePicker.setMinute(timeMinute);
 
+        Intent toMainActivityIntent = new Intent(this, MainActivity.class);
+
 
         saveMeetingButton.setOnClickListener(new View.OnClickListener() {
 
@@ -154,6 +156,7 @@ public class EditMeetingActivity extends AppCompatActivity {
 
                         Toast.makeText(EditMeetingActivity.this, "Endring ble lagret.",
                                 Toast.LENGTH_LONG).show();
+                        startActivity(toMainActivityIntent);
                     }
 
                 }
