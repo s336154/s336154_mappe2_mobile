@@ -2,11 +2,19 @@ package com.example.s336154_mappe2;
 
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -31,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         contactAdapter = new ContactAdapter(this);
         contactAdapter.open();
 
+
         ListView meetingListView = (ListView) findViewById(R.id.listView);
         meetingsList = (List<Meeting>) meetingAdapter.getMeetingsList();
 
@@ -50,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
         //    meetingArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meetingsList);
         meetingListView.setAdapter(meetingArrayAdapter);
         meetingArrayAdapter.notifyDataSetChanged();
+
+
+        BroadcastReceiver myBroadcastReceiver = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter("com.example.service.MITTSIGNAL");
+        filter.addAction("com.example.service.MITTSIGNAL");
+        this.registerReceiver(myBroadcastReceiver, filter);
+
+
 
 
         Button toContactsButt = findViewById(R.id.toContactsButton);
@@ -99,9 +118,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button preferanseButt = findViewById(R.id.preferenseButton);
         Intent prefIntent = new Intent(this, SettingsActivity.class);
+        Intent IntentPer = new Intent(this, MyPeriodicService.class);
+
+
+
         preferanseButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                getApplicationContext().startService(IntentPer);
                 startActivity(prefIntent);
             }
         });
@@ -110,7 +135,11 @@ public class MainActivity extends AppCompatActivity {
 
         boolean prefNotif = sharedPref.getBoolean("activateNotification", true);
         String Str_prefNotif = String.valueOf(prefNotif);
-        Log.d("prefNotification", Str_prefNotif);
+        Log.d("SMSNotification", Str_prefNotif);
+
+        boolean checkedSMS = sharedPref.getBoolean("activateSMS", true);
+        String Str_checkedSMS = String.valueOf(checkedSMS);
+        Log.d("checkedSMS", Str_checkedSMS);
 
         meetingsIDs = meetingAdapter.getMeetingIdsWithTodayDate(this);
 
@@ -135,7 +164,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Matching IDs", "Meeting with ID: " + String.valueOf(i) + " takesplace today.");
         }
 
+
+
     }
+
 
     boolean grantedSMS;
 
@@ -163,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -181,5 +215,7 @@ public class MainActivity extends AppCompatActivity {
         contactAdapter.close();
         meetingAdapter.close();
     }
+
+
 }
 
