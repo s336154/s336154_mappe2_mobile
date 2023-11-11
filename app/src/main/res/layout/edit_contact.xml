@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".EditContactActivity"
-
     >
 
     <TextView
@@ -17,77 +13,78 @@
         android:fontFamily="casual"
         android:textSize="38dp"
         android:text="Rediger Kontakt"
-        android:textFontWeight="@integer/material_motion_duration_long_2"
-        android:layout_marginBottom="13dp"
-        android:layout_marginTop="20dp"
         android:textStyle="bold"
         android:textColor="#A9A9A9"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="13dp"
+        android:id="@+id/text"
         />
-
 
     <EditText
         android:id="@+id/editContactName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Navn" />
-
+        android:hint="Navn"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        />
 
     <EditText
         android:id="@+id/editContactPhone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Telefon nummer"
+        app:layout_constraintTop_toBottomOf="@+id/editContactName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         />
 
-
-    <GridLayout
-        android:id="@+id/gridLayout"
+    <Button
+        android:id="@+id/saveContactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:orientation="horizontal"
-        android:rowCount="1"
-        android:layout_marginBottom="20dp"
+        android:text="Lagre"
+        app:layout_constraintTop_toBottomOf="@+id/editContactPhone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/contactToMeetingButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="20dp"
-        >
+        />
 
+    <Button
+        android:id="@+id/contactToMeetingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ny avtale"
+        app:layout_constraintTop_toBottomOf="@+id/editContactPhone"
+        app:layout_constraintStart_toEndOf="@+id/saveContactButton"
+        app:layout_constraintEnd_toStartOf="@+id/deletecontact"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
+        />
 
-
-        <Button
-            android:id="@+id/saveContactButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lagre"
-            android:layout_column="0"
-            android:layout_row="0"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            />
-
-
-        <Button
-            android:id="@+id/contactToMeetingButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ny avtale"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            />
-
-        <Button
-            android:id="@+id/deletecontact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Slett"
-            android:layout_column="2"
-            android:layout_row="0"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            />
-
-
-    </GridLayout>
-
-</LinearLayout>
+    <Button
+        android:id="@+id/deletecontact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slett"
+        app:layout_constraintTop_toBottomOf="@+id/editContactPhone"
+        app:layout_constraintStart_toEndOf="@+id/contactToMeetingButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

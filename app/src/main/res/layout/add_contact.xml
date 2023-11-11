@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,71 +12,64 @@
     >
 
     <TextView
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
         android:textSize="38dp"
         android:text="Legge Til Kontakt"
-        android:textFontWeight="@integer/material_motion_duration_long_2"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
         android:textStyle="bold"
         android:textColor="#A9A9A9"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         />
 
     <EditText
         android:id="@+id/editContactName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Navn"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
         />
 
     <EditText
         android:id="@+id/editContactPhone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Telefon nummer"
+        app:layout_constraintTop_toBottomOf="@+id/editContactName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
         />
-
-
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:padding="16dp"
-        android:orientation="horizontal"
-        android:rowCount="1"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="30dp"
-        >
-
 
     <Button
         android:id="@+id/saveContactButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Lagre"
-        android:layout_column="0"
-        android:layout_row="0"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/editContactPhone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/contactToMeetingButton"
+        android:layout_marginTop="30dp"
+        app:layout_constraintHorizontal_bias="0.5"
         />
 
-
-        <Button
-            android:id="@+id/contactToMeetingButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Avtale"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            />
-
-
-    </GridLayout>
-
-</LinearLayout>
+    <Button
+        android:id="@+id/contactToMeetingButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Avtale"
+        app:layout_constraintTop_toBottomOf="@+id/editContactPhone"
+        app:layout_constraintStart_toEndOf="@+id/saveContactButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
