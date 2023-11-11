@@ -19,46 +19,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="13dp"
         />
 
     <Button
         android:id="@+id/toMeetingButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Ny avtale"
         app:layout_constraintTop_toBottomOf="@+id/text"
         app:layout_constraintEnd_toStartOf="@+id/editContact"
         app:layout_constraintStart_toEndOf="@+id/addContactButton"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         />
 
     <Button
         android:id="@+id/addContactButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Ny kontakt"
         app:layout_constraintTop_toBottomOf="@+id/text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/toMeetingButton"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         />
 
     <Button
         android:id="@+id/editContact"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Rediger"
         app:layout_constraintTop_toBottomOf="@+id/text"
         app:layout_constraintStart_toEndOf="@+id/toMeetingButton"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         />
 
     <ListView
@@ -73,6 +66,7 @@
         android:divider="@color/black"
         android:dividerHeight="3dp"
         android:listSelector="@color/cardview_shadow_start_color"
+        android:layout_marginTop="35dp"
         />
 
     <EditText

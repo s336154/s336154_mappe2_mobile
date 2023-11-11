@@ -103,9 +103,9 @@
 
             <Button
                 android:id="@+id/meetingToContact"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Rediger kontakt"
+                android:text="Kontakt"
                 app:layout_constraintStart_toEndOf="@+id/saveMeetingButt"
                 app:layout_constraintTop_toBottomOf="@+id/editComment"
                 app:layout_constraintEnd_toStartOf="@+id/deleteMeetingButt"
@@ -113,26 +113,22 @@
 
             <Button
                 android:id="@+id/saveMeetingButt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Lagre"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editComment"
                 app:layout_constraintEnd_toStartOf="@+id/meetingToContact"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="20dp" />
 
             <Button
                 android:id="@+id/deleteMeetingButt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Slett"
                 app:layout_constraintTop_toBottomOf="@+id/editComment"
                 app:layout_constraintStart_toEndOf="@+id/meetingToContact"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="20dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
