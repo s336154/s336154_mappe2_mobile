@@ -56,7 +56,9 @@
                             app:layout_constraintTop_toBottomOf="@+id/text1"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginTop="8dp" />
+                            android:layout_marginTop="8dp"
+                            android:timePickerMode="spinner"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
